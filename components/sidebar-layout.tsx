@@ -22,7 +22,7 @@ export function SidebarLayout({ children }: SidebarLayoutProps) {
       <Sidebar />
 
       {/* 主内容区域 - 响应式左边距 */}
-      <div className="relative z-10 transition-all duration-300 ml-20 lg:ml-64">
+      <div className="relative z-10 transition-all duration-300 ml-20 md:ml-64">
         <main className="min-h-screen">{children}</main>
         <Footer />
       </div>

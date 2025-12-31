@@ -81,7 +81,7 @@ export default function Home() {
           </p>
         </section>
 
-        <section className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <section className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
           {tools.map((tool) => (
             <Link key={tool.href} href={tool.href}>
               <Card className="group h-full bg-white/60 backdrop-blur-xl border-white/30 shadow-xl shadow-primary/5 overflow-hidden hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 cursor-pointer">

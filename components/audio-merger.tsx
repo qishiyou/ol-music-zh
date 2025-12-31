@@ -580,13 +580,13 @@ export function AudioMerger() {
         {/* 文件列表 */}
         {files.length > 0 && (
           <div className="mt-8 space-y-3">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
               <h4 className="font-semibold text-foreground flex-1 text-center">文件列表 ({files.length})</h4>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={clearAll}
-                className="text-muted-foreground hover:text-foreground"
+                className="text-muted-foreground hover:text-foreground whitespace-nowrap"
               >
                 清空全部
               </Button>
@@ -596,10 +596,10 @@ export function AudioMerger() {
               {files.map((file, index) => (
                 <div
                   key={file.id}
-                  className="p-4 rounded-xl bg-white/50 backdrop-blur border border-white/30"
+                  className="p-3 sm:p-4 rounded-xl bg-white/50 backdrop-blur border border-white/30"
                 >
-                  <div className="flex items-center gap-4 mb-3">
-                    <div className="flex flex-col items-center gap-2 mr-2">
+                  <div className="flex flex-wrap items-center gap-3 mb-3">
+                    <div className="flex flex-col items-center gap-2 mr-1">
                       <Button
                         size="icon"
                         variant="ghost"
@@ -625,13 +625,13 @@ export function AudioMerger() {
                     </div>
 
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="font-medium text-foreground truncate">{file.name}</span>
-                        <Badge variant="secondary" className="text-xs uppercase bg-orange-500/10 text-orange-500">
+                      <div className="flex flex-wrap items-center gap-2 mb-1">
+                        <span className="font-medium text-foreground truncate max-w-[150px] sm:max-w-none">{file.name}</span>
+                        <Badge variant="secondary" className="text-xs uppercase bg-orange-500/10 text-orange-500 whitespace-nowrap">
                           {file.type}
                         </Badge>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
                         <span>{formatFileSize(file.size)}</span>
                         <span>#{index + 1}</span>
                       </div>
@@ -669,7 +669,7 @@ export function AudioMerger() {
 
                   {/* 波形预览 */}
                   {file.audioBuffer && (
-                    <div className="space-y-2 ml-20">
+                    <div className="space-y-2 ml-16 sm:ml-20">
                       <WaveformCanvas
                         audioBuffer={file.audioBuffer}
                         currentTime={selectedFile?.id === file.id ? currentTime : 0}
@@ -682,7 +682,7 @@ export function AudioMerger() {
                           }
                         }}
                         color="#f97316"
-                        height={50}
+                        height={40}
                       />
                       <div className="flex justify-between text-xs text-muted-foreground px-1">
                         <span>{formatTime(selectedFile?.id === file.id ? currentTime : 0)}</span>
