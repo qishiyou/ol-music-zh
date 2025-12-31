@@ -1,6 +1,6 @@
 import { SidebarLayout } from "@/components/sidebar-layout"
 import Link from "next/link"
-import { ArrowRight, RefreshCw, Scissors, Wand2, Mic2 } from "lucide-react"
+import { ArrowRight, RefreshCw, Scissors, Wand2, Mic2, Volume2, FileAudio, Video, Mic } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 
 const tools = [
@@ -35,6 +35,38 @@ const tools = [
     href: "/separator",
     gradient: "from-purple-500 to-pink-500",
     shadowColor: "shadow-purple-500/30",
+  },
+  {
+    title: "音量调节",
+    description: "精确调节音频音量，实时波形可视化，支持批量处理",
+    icon: Volume2,
+    href: "/volume",
+    gradient: "from-blue-500 to-indigo-500",
+    shadowColor: "shadow-blue-500/30",
+  },
+  {
+    title: "音频合并",
+    description: "合并多个音频文件，支持调整顺序，实时预览合并效果",
+    icon: FileAudio,
+    href: "/merger",
+    gradient: "from-orange-500 to-amber-500",
+    shadowColor: "shadow-orange-500/30",
+  },
+  {
+    title: "视频分离",
+    description: "从视频中提取音频，支持多种视频格式，高质量音频输出",
+    icon: Video,
+    href: "/video-separator",
+    gradient: "from-green-500 to-emerald-500",
+    shadowColor: "shadow-green-500/30",
+  },
+  {
+    title: "录音室",
+    description: "高质量录音功能，实时波形显示，支持暂停恢复和下载",
+    icon: Mic,
+    href: "/recorder",
+    gradient: "from-violet-500 to-purple-500",
+    shadowColor: "shadow-violet-500/30",
   },
 ]
 

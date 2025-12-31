@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Music2, RefreshCw, Scissors, Wand2, Info, Menu, Mic2 } from "lucide-react"
+import { Music2, RefreshCw, Scissors, Wand2, Info, Menu, Mic2, Volume2, FileAudio, Video, Mic } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
@@ -27,6 +27,26 @@ const navItems = [
     title: "人声分离",
     href: "/separator",
     icon: Mic2,
+  },
+  {
+    title: "音量调节",
+    href: "/volume",
+    icon: Volume2,
+  },
+  {
+    title: "音频合并",
+    href: "/merger",
+    icon: FileAudio,
+  },
+  {
+    title: "视频分离",
+    href: "/video-separator",
+    icon: Video,
+  },
+  {
+    title: "录音室",
+    href: "/recorder",
+    icon: Mic,
   },
 ]
 
