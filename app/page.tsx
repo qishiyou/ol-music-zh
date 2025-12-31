@@ -85,17 +85,17 @@ export default function Home() {
           {tools.map((tool) => (
             <Link key={tool.href} href={tool.href}>
               <Card className="group h-full bg-white/60 backdrop-blur-xl border-white/30 shadow-xl shadow-primary/5 overflow-hidden hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 cursor-pointer">
-                <CardContent className="p-8 flex flex-col items-center text-center">
+                <CardContent className="p-6 flex flex-col items-center text-center h-full">
                   <div
-                    className={`w-20 h-20 mb-6 rounded-2xl bg-gradient-to-br ${tool.gradient} flex items-center justify-center shadow-lg ${tool.shadowColor} group-hover:scale-110 transition-transform duration-300`}
+                    className={`w-16 h-16 mb-4 rounded-2xl bg-gradient-to-br ${tool.gradient} flex items-center justify-center shadow-lg ${tool.shadowColor} group-hover:scale-110 transition-transform duration-300`}
                   >
-                    <tool.icon className="w-10 h-10 text-white" />
+                    <tool.icon className="w-8 h-8 text-white" />
                   </div>
-                  <h2 className="text-2xl font-bold text-foreground mb-3">{tool.title}</h2>
-                  <p className="text-muted-foreground mb-6 leading-relaxed">{tool.description}</p>
+                  <h2 className="text-xl font-bold text-foreground mb-2">{tool.title}</h2>
+                  <p className="text-muted-foreground text-sm mb-4 leading-relaxed flex-grow">{tool.description}</p>
                   <div className="flex items-center gap-2 text-primary font-medium group-hover:gap-3 transition-all duration-300">
-                    <span>立即使用</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <span className="text-sm">立即使用</span>
+                    <ArrowRight className="w-3 h-3" />
                   </div>
                 </CardContent>
               </Card>
