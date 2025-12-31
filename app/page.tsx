@@ -109,7 +109,7 @@ export default function Home() {
               支持 10+ 音频格式
             </span>
             <span className="px-4 py-2 rounded-full bg-white/60 backdrop-blur border border-white/30">
-              浏览器内处理
+              本地边缘计算
             </span>
             <span className="px-4 py-2 rounded-full bg-white/60 backdrop-blur border border-white/30">
               无需安装软件
