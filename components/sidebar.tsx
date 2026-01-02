@@ -3,8 +3,8 @@
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useTranslations } from './translation-provider'
-import { Music2, RefreshCw, Scissors, Wand2, Info, Menu, Mic2, Volume2, FileAudio, Video, Mic } from "lucide-react"
+import { useTranslations, useLocale } from './translation-provider'
+import { Music2, RefreshCw, Scissors, Wand2, Info, Menu, Mic2, Volume2, FileAudio, Video, Mic, Globe } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
@@ -53,8 +53,10 @@ const navItems = [
 
 export function Sidebar() {
   const [collapsed, setCollapsed] = useState(false)
+  const [languageMenuOpen, setLanguageMenuOpen] = useState(false)
   const pathname = usePathname()
   const t = useTranslations()
+  const { locale, changeLocale } = useLocale()
 
   return (
     <aside
@@ -138,6 +140,72 @@ export function Sidebar() {
           <Info className="w-4 h-4 flex-shrink-0" />
           {!collapsed && <span className="text-sm">{t('navigation.home')}</span>}
         </Link>
+      </div>
+
+      {/* 语言切换菜单 - 可折叠 */}
+      <div className="p-3 border-t border-white/20">
+        {/* 折叠按钮 */}
+        <button
+          onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
+          className={cn(
+            "flex items-center justify-between gap-3 w-full px-4 py-2 rounded-xl transition-all duration-200",
+            collapsed && "justify-center justify-between"
+          )}
+        >
+          <div className="flex items-center gap-3">
+            <Globe className="w-4 h-4 flex-shrink-0 text-primary" />
+            {!collapsed && <span className="text-sm text-muted-foreground/80">{t('navigation.language')}</span>}
+          </div>
+          {!collapsed && (
+            <svg
+              className={`w-4 h-4 text-muted-foreground transition-transform duration-200 ${languageMenuOpen ? 'rotate-180' : ''}`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          )}
+        </button>
+        
+        {/* 可折叠的语言选项 */}
+        {languageMenuOpen && (
+          <div className={`mt-2 space-y-1 ${collapsed ? 'flex justify-center' : 'pl-10'}`}>
+            {/* 中文选项 */}
+            <button
+              onClick={() => {
+                changeLocale('zh');
+                setLanguageMenuOpen(false);
+              }}
+              className={cn(
+                "flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-all duration-200 w-full",
+                locale === 'zh'
+                  ? "bg-primary/10 text-primary font-medium"
+                  : "text-muted-foreground hover:bg-white/40 hover:text-foreground",
+                collapsed && "justify-center"
+              )}
+            >
+              {!collapsed && '中文'}
+            </button>
+            {/* 英文选项 */}
+            <button
+              onClick={() => {
+                changeLocale('en');
+                setLanguageMenuOpen(false);
+              }}
+              className={cn(
+                "flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-all duration-200 w-full",
+                locale === 'en'
+                  ? "bg-primary/10 text-primary font-medium"
+                  : "text-muted-foreground hover:bg-white/40 hover:text-foreground",
+                collapsed && "justify-center"
+              )}
+            >
+              {!collapsed && 'English'}
+            </button>
+          </div>
+        )}
       </div>
     </aside>
   )

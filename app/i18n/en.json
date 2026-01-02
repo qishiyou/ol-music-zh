@@ -46,7 +46,8 @@
     "volume": "Volume Adjustment",
     "merger": "Audio Merger",
     "video-separator": "Video Separation",
-    "recorder": "Recording Studio"
+    "recorder": "Recording Studio",
+    "language": "Language"
   },
   "footer": {
     "format": "Support for 10+ Audio Formats",

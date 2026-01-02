@@ -46,7 +46,8 @@
     "volume": "音量调节",
     "merger": "音频合并",
     "video-separator": "视频分离",
-    "recorder": "录音室"
+    "recorder": "录音室",
+    "language": "语言"
   },
   "footer": {
     "format": "支持 10+ 音频格式",
