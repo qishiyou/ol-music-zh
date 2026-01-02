@@ -164,7 +164,7 @@ export function AudioRecorder() {
       if (audioInputs.length === 0) {
         // 没有找到麦克风设备
         setPermissionGranted(false)
-        setError("未检测到任何麦克风设备，请连接麦克风后重试")
+        setError(t('error.not-found'))
         return
       }
       
@@ -178,15 +178,15 @@ export function AudioRecorder() {
       setPermissionGranted(false)
       const error = err as Error
       if (error.name === 'NotFoundError') {
-        setError("未找到麦克风设备，请检查设备连接和驱动程序")
+        setError(t('error.not-found'))
       } else if (error.name === 'NotAllowedError') {
-        setError("麦克风权限被拒绝，请检查浏览器设置")
+        setError(t('error.not-allowed'))
       } else if (error.name === 'NotReadableError') {
-        setError("麦克风设备被占用或无法访问")
+        setError(t('error.not-readable'))
       } else if (error.name === 'OverconstrainedError') {
-        setError("无法满足麦克风约束条件")
+        setError(t('error.over-constrained'))
       } else {
-        setError(`无法访问麦克风: ${error.message}`)
+        setError(t('error.generic'))
       }
       console.error("麦克风权限错误:", err)
     }
@@ -256,11 +256,11 @@ export function AudioRecorder() {
     } catch (err) {
       const error = err as Error
       if (error.name === 'NotFoundError') {
-        setError("未找到麦克风设备，请检查设备连接")
+        setError(t('error.not-found'))
       } else if (error.name === 'NotAllowedError') {
-        setError("麦克风权限被拒绝，请检查浏览器设置")
+        setError(t('error.not-allowed'))
       } else {
-        setError("开始录音失败")
+        setError(t('error.generic'))
       }
       console.error("录音错误:", err)
     }
@@ -334,7 +334,7 @@ export function AudioRecorder() {
     if (recordingUrl) {
       const link = document.createElement("a")
       link.href = recordingUrl
-      link.download = `recording-${new Date().toISOString().slice(0, 19).replace(/:/g, "-")}.webm`
+      link.download = t('download-filename', { time: new Date().toISOString().slice(0, 19).replace(/:/g, "-") })
       link.click()
     }
   }

@@ -1,4 +1,12 @@
 {
+  "boot": {
+    "loading": "系统启动中...",
+    "ready": "系统已就绪",
+    "select-language": "选择系统语言 / Select Language",
+    "chinese": "简体中文",
+    "english": "English",
+    "start": "开启之旅"
+  },
   "app": {
     "name": "在线音乐工具箱",
     "description": "免费、快速、安全的音频处理工具。支持格式转换、音频剪辑、音效处理等多种功能，让音频处理变得简单高效"
@@ -17,8 +25,8 @@
       "description": "混响、回声、降噪、低音增强等专业音效，提升音频品质"
     },
     "separator": {
-      "title": "人声分离",
-      "description": "AI 智能分离音频中的人声和伴奏，支持单独下载人声或伴奏轨道"
+      "title": "人声分离 (AI)",
+      "description": "基于 AI 算法分离音频中的人声和伴奏，支持单独下载人声或伴奏轨道"
     },
     "volume": {
       "title": "音量调节",
@@ -34,7 +42,11 @@
     },
     "recorder": {
       "title": "录音室",
-      "description": "高质量录音功能，实时波形显示，支持暂停恢复和下载"
+      "description": "高质量录音，实时波形显示"
+    },
+    "ai-audio": {
+      "title": "AI 级音频处理",
+      "description": "集成 Whisper 字幕转写、AI 语音增强、深度降噪等前沿技术"
     }
   },
   "navigation": {
@@ -47,13 +59,15 @@
     "merger": "音频合并",
     "video-separator": "视频分离",
     "recorder": "录音室",
+    "ai-audio": "AI 实验室",
     "language": "语言"
   },
   "footer": {
     "format": "支持 10+ 音频格式",
     "edge-computing": "本地边缘计算",
     "no-software": "无需安装软件",
-    "no-server": "文件不上传服务器"
+    "no-server": "文件不上传服务器",
+    "copyright": "© 2025 AudioConvert. 免费在线音乐工具箱"
   },
   "buttons": {
     "start-using": "立即使用",
@@ -73,7 +87,8 @@
     "upload": "上传文件",
     "convert": "转换",
     "apply": "应用",
-    "extract": "提取音频"
+    "extract": "提取音频",
+    "start-merging": "开始合并"
   },
   "labels": {
     "volume": "音量",
@@ -100,5 +115,381 @@
     "no-files-selected": "请选择至少一个文件",
     "at-least-two-files": "至少需要2个文件",
     "unsupported-format": "不支持的文件格式"
+  },
+  "effects": {
+    "title": "音效处理",
+    "reverb": {
+      "name": "混响",
+      "description": "模拟空间回声"
+    },
+    "echo": {
+      "name": "回声",
+      "description": "延迟反馈效果"
+    },
+    "bass": {
+      "name": "低音增强",
+      "description": "提升低频表现"
+    },
+    "treble": {
+      "name": "高音增强",
+      "description": "提升高频表现"
+    },
+    "noise": {
+      "name": "噪声门",
+      "description": "消除背景底噪"
+    },
+    "vocal": {
+      "name": "人声增强",
+      "description": "使人声更清晰"
+    },
+    "download-filename": "processed_audio"
+  },
+  "ai-audio": {
+    "title": "AI 级音频处理",
+    "tabs": {
+      "transcribe": "AI 字幕转写",
+      "enhance": "AI 语音增强"
+    },
+    "status": {
+      "loading-model": "正在加载 AI 模型...",
+      "initializing": "正在初始化...",
+      "processing": "正在分析音频...",
+      "decoding": "正在解码音频...",
+      "transcribing": "正在进行 AI 转写...",
+      "completed": "处理完成",
+      "error": "处理失败"
+    },
+    "settings": {
+      "mode": "分离模式",
+      "mode-fast": "快速 (DSP)",
+      "mode-ai": "高精度 (AI)",
+      "ai-warning": "AI 模式需要下载约 50MB 模型数据，建议在 WiFi 下使用。"
+    },
+    "buttons": {
+      "start-transcribe": "开始转写"
+    },
+    "labels": {
+      "result": "转写结果"
+    },
+    "messages": {
+      "success": "处理成功",
+      "error": "处理过程中出现错误",
+      "ai-processing-hint": "正在使用浏览器本地算力处理音频..."
+    }
+  },
+  "merger": {
+    "title": "音频合并",
+    "description": "将多个音频文件合并为一个",
+    "file-list": {
+      "title": "文件列表 ({count})"
+    },
+    "upload": {
+      "title": "上传音频文件",
+      "description": "拖放多个音频文件到这里或点击上传",
+      "supported-formats": "支持 MP3, WAV, OGG, FLAC, AAC, M4A, WMA, WebM"
+    },
+    "result": {
+      "title": "合并结果"
+    },
+    "buttons": {
+      "merging": "合并中...",
+      "start-merging": "开始合并 ({count})",
+      "clear-all": "清空全部"
+    },
+    "status": {
+      "pending": "等待合并",
+      "merging": "合并中...",
+      "completed": "已完成",
+      "error": "错误",
+      "extract-failed": "提取音频失败，请重试"
+    },
+    "error": {
+      "add-failed": "添加文件失败",
+      "merge-failed": "合并音频失败"
+    }
+  },
+  "volume": {
+    "title": "音量调节",
+    "description": "精确调节音频音量",
+    "upload": {
+      "title": "拖放音频文件到这里",
+      "description": "或点击选择文件",
+      "supported-formats": "支持 MP3, WAV, OGG, FLAC, AAC, M4A, WMA, WebM"
+    },
+    "file-list": "文件列表 ({count})",
+    "clear-all": "清空全部",
+    "volume-level": "音量: {level}%",
+    "play": "播放",
+    "pause": "暂停",
+    "status": {
+      "pending": "等待处理",
+      "processing": "处理中...",
+      "completed": "已处理",
+      "error": "错误"
+    },
+    "process-all": "开始处理",
+    "download-all": "全部下载 ({count})",
+    "processed": "已处理"
+  },
+  "trimmer": {
+    "title": "音频剪辑",
+    "description": "精确裁剪音频片段，支持可视化波形编辑",
+    "upload": {
+      "title": "上传音频文件进行裁剪",
+      "description": "拖放文件或点击选择",
+      "supported-formats": "支持 MP3, WAV, OGG, FLAC, M4A"
+    },
+    "preview": "预览选择区域",
+    "pause": "暂停",
+    "reset": "重置选择",
+    "trimming": "处理中...",
+    "trim": "开始裁剪",
+    "download": "下载裁剪后的音频 (WAV)",
+    "download-filename-suffix": "_剪辑",
+    "total-duration": "总时长",
+    "start-time": "开始时间",
+    "trim-duration": "裁剪时长",
+    "end-time": "结束时间",
+    "tip": "拖动波形上的紫色边界线来调整裁剪范围",
+    "original-audio": "原始音频"
+  },
+  "converter": {
+    "title": "格式转换",
+    "description": "将音频文件转换为不同格式",
+    "upload": {
+      "title": "拖放音频文件到这里",
+      "description": "或点击选择文件",
+      "supported-formats": "支持 MP3, WAV, OGG, FLAC, AAC, M4A, WMA, WebM 等格式"
+    },
+    "settings": {
+      "output-format": "输出格式",
+      "bitrate": "比特率: {bitrate} kbps"
+    },
+    "file-list": "文件列表 ({count})",
+    "clear-all": "清空全部",
+    "status": {
+      "pending": "等待转换",
+      "converting": "转换中...",
+      "completed": "已完成",
+      "error": "错误"
+    },
+    "formats": {
+      "mp3": "最常用的音频格式",
+      "wav": "无损音频格式",
+      "ogg": "开源音频格式",
+      "flac": "无损压缩格式",
+      "aac": "高级音频编码",
+      "m4a": "苹果音频格式",
+      "wma": "Windows 媒体音频",
+      "webm": "Web 音频格式"
+    },
+    "bitrates": {
+      "128": "标准音质",
+      "192": "较高音质",
+      "256": "高音质",
+      "320": "最高音质"
+    },
+    "convert": "转换 {count} 个文件",
+    "download-all": "全部下载 ({count})",
+    "convert-all": "开始转换"
+  },
+  "common": {
+    "units": {
+      "bytes": "Bytes",
+      "kb": "KB",
+      "mb": "MB",
+      "gb": "GB"
+    },
+    "labels": {
+      "duration": "时长"
+    },
+    "buttons": {
+      "download": "下载"
+    }
+  },
+  "os": {
+    "taskbar": {
+      "start-menu": "开始菜单",
+      "change-language": "切换语言",
+      "zh": "中文 (简体)",
+      "en": "English"
+    },
+    "settings": {
+      "title": "系统设置",
+      "version": "版本",
+      "tabs": {
+        "wallpaper": "个性化壁纸",
+        "language": "语言设置",
+        "features": "功能概览",
+        "about": "关于我们",
+        "donate": "支持赞赏"
+      },
+      "wallpaper": {
+        "description": "选择一张你喜欢的壁纸作为桌面背景"
+      },
+      "language": {
+        "description": "设置应用程序的显示语言",
+        "zh": "简体中文",
+        "en": "English"
+      },
+      "features": {
+        "description": "当前系统支持的所有音频处理工具",
+        "status": "已就绪"
+      },
+      "about": {
+        "title": "项目简介",
+        "description": "北山音频转换 (AudioConvert) 是一款专业的在线音频处理工具，致力于提供极简、高效的音频转码与编辑体验。我们采用最新的 Web 技术，确保所有操作都在本地浏览器完成，保护您的隐私安全。",
+        "contact": "联系我们",
+        "author": "作者",
+        "wechat": "微信",
+        "email": "邮箱"
+      },
+      "donate": {
+        "title": "支持我们的开发",
+        "description": "如果您觉得这个工具对您有帮助，欢迎请作者喝杯咖啡，您的支持是我们持续维护的动力。",
+        "wechat": "微信赞赏",
+        "alipay": "支付宝转账",
+        "wechat-qr": "微信支付二维码",
+        "alipay-qr": "支付宝二维码"
+      }
+    }
+  },
+  "recorder": {
+    "title": "录音室",
+    "description": "高质量录音，实时波形显示",
+    "permission": {
+      "title": "需要麦克风权限",
+      "description": "录音室需要访问您的麦克风设备",
+      "button": "请求麦克风权限"
+    },
+    "error": {
+      "title": "无法访问麦克风",
+      "retry-button": "重新请求权限",
+      "not-found": "未检测到任何麦克风设备，请连接麦克风后重试",
+      "not-allowed": "麦克风权限被拒绝，请检查浏览器设置",
+      "not-readable": "麦克风设备被占用或无法访问",
+      "over-constrained": "无法满足麦克风约束条件",
+      "generic": "无法访问麦克风"
+    },
+    "recording-status": "录音状态",
+    "recording-time": "录制时长",
+    "buttons": {
+      "start": "开始录音",
+      "pause": "暂停录音",
+      "resume": "继续录音",
+      "stop": "停止录音",
+      "play": "播放",
+      "pause-playback": "暂停",
+      "stop-playback": "停止",
+      "download": "下载录音",
+      "delete": "删除录音"
+    },
+    "download-filename": "录音_{time}.webm",
+    "status": {
+      "recording": "正在录音",
+      "paused": "录音已暂停",
+      "playing": "正在播放"
+    },
+    "playback": "录音播放",
+    "volume": "音量"
+  },
+  "separator": {
+    "title": "人声分离",
+    "description": "AI 智能分离音频中的人声 and 伴奏",
+    "upload": {
+      "title": "上传音频文件进行人声分离",
+      "description": "拖放文件或点击选择",
+      "supported-formats": "支持 MP3, WAV, OGG, FLAC, M4A"
+    },
+    "buttons": {
+      "start-separating": "开始分离人声",
+      "download-vocals": "下载人声",
+      "download-instrumental": "下载伴奏",
+      "upload-new": "上传新文件"
+    },
+    "processing": {
+      "initializing": "初始化中...",
+      "analyzing": "分析音频频谱...",
+      "processing-channels": "正在处理第 {ch}/{total} 个通道...",
+      "generating": "生成音频文件中...",
+      "completed": "分离完成！",
+      "error": "分离失败，请重试"
+    },
+    "tracks": {
+      "vocals": "人声音轨",
+      "vocals-desc": "人声音轨",
+      "instrumental": "伴奏音轨",
+      "instrumental-desc": "伴奏音轨"
+    },
+    "actions": {
+      "play": "播放",
+      "pause": "暂停"
+    }
+  },
+  "video-separator": {
+    "title": "视频分离",
+    "description": "从视频文件中提取音频",
+    "upload": {
+      "title": "拖放视频文件到这里",
+      "description": "或点击选择文件",
+      "supported-formats": "支持 MP4, AVI, MOV, WMV, WebM, MKV, FLV 等格式"
+    },
+    "settings": {
+      "output-format": "输出音频格式"
+    },
+    "formats": {
+      "mp3": "最常用的音频格式",
+      "wav": "无损音频格式",
+      "ogg": "开源音频格式",
+      "flac": "无损压缩格式",
+      "aac": "高级音频编码"
+    },
+    "file-list": "文件列表 ({count})",
+    "clear-all": "清空全部",
+    "status": {
+      "pending": "等待提取",
+      "extracting": "提取中...",
+      "completed": "已完成",
+      "error": "错误",
+      "extract-failed": "提取音频失败，请重试"
+    },
+    "buttons": {
+      "extract-all": "开始提取音频",
+      "download-all": "全部下载 ({count})"
+    }
+  },
+  "ai-audio": {
+    "title": "AI 级音频处理",
+    "tabs": {
+      "transcribe": "AI 字幕转写",
+      "enhance": "AI 语音增强"
+    },
+    "status": {
+      "loading-model": "正在加载 AI 模型...",
+      "decoding": "正在解码音频...",
+      "transcribing": "正在进行 AI 转写...",
+      "processing": "正在分析音频...",
+      "completed": "处理完成",
+      "error": "处理失败"
+    },
+    "buttons": {
+      "start-transcribe": "开始转写",
+      "download-text": "下载文本",
+      "download-srt": "下载 SRT 字幕"
+    },
+    "labels": {
+      "model": "AI 模型",
+      "language": "识别语言",
+      "auto-detect": "自动检测",
+      "result": "处理结果",
+      "preview": "预览",
+      "transcription": "转写文本"
+    },
+    "messages": {
+      "success": "AI 处理完成",
+      "error": "AI 处理出错",
+      "ai-processing-hint": "AI 处理可能需要几十秒，请耐心等待...",
+      "enhance-not-ready": "AI 语音增强功能正在紧张集成中，目前仅提供界面预览。"
+    }
   }
 }

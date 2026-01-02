@@ -59,9 +59,9 @@ export function useTranslations(namespace?: string) {
   }
   
   if (namespace) {
-    return (key: string) => {
+    return (key: string, params?: Record<string, any>) => {
       const fullKey = `${namespace}.${key}`;
-      return context.t(fullKey);
+      return context.t(fullKey, params);
     };
   }
   

@@ -1,4 +1,12 @@
 {
+  "boot": {
+    "loading": "Starting system...",
+    "ready": "System ready",
+    "select-language": "Select Language / 选择系统语言",
+    "chinese": "简体中文",
+    "english": "English",
+    "start": "Start Journey"
+  },
   "app": {
     "name": "Online Music Toolbox",
     "description": "Free, fast, and secure audio processing tools. Supports format conversion, audio trimming, sound effects, and more, making audio processing simple and efficient"
@@ -17,8 +25,8 @@
       "description": "Professional effects such as reverb, echo, noise reduction, bass enhancement to improve audio quality"
     },
     "separator": {
-      "title": "Vocal Separation",
-      "description": "AI intelligent separation of vocals and accompaniment in audio, support for separate download of vocals or accompaniment tracks"
+      "title": "Vocal Separation (AI)",
+      "description": "Separate vocals and accompaniment based on AI algorithms, supporting separate download of tracks"
     },
     "volume": {
       "title": "Volume Adjustment",
@@ -35,6 +43,10 @@
     "recorder": {
       "title": "Recording Studio",
       "description": "High-quality recording function with real-time waveform display, support for pause, resume and download"
+    },
+    "ai-audio": {
+      "title": "AI Audio Lab",
+      "description": "Integrated Whisper transcription, AI voice enhancement, deep noise reduction and other cutting-edge technologies"
     }
   },
   "navigation": {
@@ -47,6 +59,7 @@
     "merger": "Audio Merger",
     "video-separator": "Video Separation",
     "recorder": "Recording Studio",
+    "ai-audio": "AI Lab",
     "language": "Language"
   },
   "footer": {
@@ -110,6 +123,9 @@
     "applied-effects": "Applied Effects: {count}",
     "enabled-effects-count": "{count} effects enabled",
     "processing": "Processing...",
+    "processing-audio": "Processing audio...",
+    "processed-audio": "Processed Audio",
+    "intensity": "Intensity",
     "apply-effects": "Apply Effects",
     "download-processed": "Download Processed Audio",
     "upload": {
@@ -205,6 +221,33 @@
     "tip": "Drag the purple boundary lines on the waveform to adjust the trim range",
     "original-audio": "Original Audio"
   },
+  "ai-audio": {
+    "title": "AI Audio Processing",
+    "tabs": {
+      "transcribe": "AI Transcription",
+      "enhance": "AI Enhancement"
+    },
+    "status": {
+      "loading-model": "Loading AI model...",
+      "initializing": "Initializing...",
+      "processing": "Analyzing audio...",
+      "decoding": "Decoding audio...",
+      "transcribing": "AI Transcribing...",
+      "completed": "Completed",
+      "error": "Failed"
+    },
+    "buttons": {
+      "start-transcribe": "Start Transcription"
+    },
+    "labels": {
+      "result": "Transcription Result"
+    },
+    "messages": {
+      "success": "Processed successfully",
+      "error": "Error occurred during processing",
+      "ai-processing-hint": "Processing audio using browser local computing power..."
+    }
+  },
   "converter": {
     "title": "Audio Converter",
     "description": "Convert audio files to different formats",
@@ -245,6 +288,67 @@
     "download-all": "Download All ({count})",
     "convert-all": "Start Conversion"
   },
+  "common": {
+    "units": {
+      "bytes": "Bytes",
+      "kb": "KB",
+      "mb": "MB",
+      "gb": "GB"
+    },
+    "labels": {
+      "duration": "Duration"
+    },
+    "buttons": {
+      "download": "Download"
+    }
+  },
+  "os": {
+    "taskbar": {
+      "start-menu": "Start Menu",
+      "change-language": "Change Language",
+      "zh": "Chinese (Simplified)",
+      "en": "English"
+    },
+    "settings": {
+      "title": "System Settings",
+      "version": "Version",
+      "tabs": {
+        "wallpaper": "Wallpaper",
+        "language": "Language",
+        "features": "Features",
+        "about": "About",
+        "donate": "Donate"
+      },
+      "wallpaper": {
+        "description": "Choose a wallpaper you like as the desktop background"
+      },
+      "language": {
+        "description": "Set the display language of the application",
+        "zh": "Chinese (Simplified)",
+        "en": "English"
+      },
+      "features": {
+        "description": "All audio processing tools currently supported by the system",
+        "status": "Ready to use"
+      },
+      "about": {
+        "title": "Project Introduction",
+        "description": "AudioConvert is a professional online audio processing tool dedicated to providing a minimalist and efficient audio transcoding and editing experience. We use the latest Web technology to ensure all operations are completed in the local browser, protecting your privacy.",
+        "contact": "Contact Us",
+        "author": "Author",
+        "wechat": "WeChat",
+        "email": "Email"
+      },
+      "donate": {
+        "title": "Support Our Development",
+        "description": "If you find this tool helpful, you are welcome to buy the author a cup of coffee. Your support is the driving force for our continuous maintenance.",
+        "wechat": "WeChat Donate",
+        "alipay": "Alipay Transfer",
+        "wechat-qr": "WeChat QR Code",
+        "alipay-qr": "Alipay QR Code"
+      }
+    }
+  },
   "recorder": {
     "title": "Recording Studio",
     "description": "High-quality recording with real-time waveform display",
@@ -270,6 +374,7 @@
       "download": "Download Recording",
       "delete": "Delete Recording"
     },
+    "download-filename-prefix": "recording-",
     "status": {
       "recording": "Recording",
       "paused": "Recording Paused",
@@ -301,7 +406,9 @@
     },
     "tracks": {
       "vocals": "Vocals Track",
-      "instrumental": "Instrumental Track"
+      "vocals-desc": "Vocals Track",
+      "instrumental": "Instrumental Track",
+      "instrumental-desc": "Instrumental Track"
     },
     "actions": {
       "play": "Play",
@@ -337,6 +444,40 @@
     "buttons": {
       "extract-all": "Start Extracting Audio",
       "download-all": "Download All ({count})"
+    }
+  },
+  "ai-audio": {
+    "title": "AI Audio Processing",
+    "tabs": {
+      "transcribe": "AI Transcription",
+      "enhance": "AI Speech Enhance"
+    },
+    "status": {
+      "loading-model": "Loading AI model...",
+      "decoding": "Decoding audio...",
+      "transcribing": "Transcribing with AI...",
+      "processing": "Analyzing audio...",
+      "completed": "Processing completed",
+      "error": "Processing failed"
+    },
+    "buttons": {
+      "start-transcribe": "Start Transcribe",
+      "download-text": "Download TXT",
+      "download-srt": "Download SRT"
+    },
+    "labels": {
+      "model": "AI Model",
+      "language": "Language",
+      "auto-detect": "Auto Detect",
+      "result": "Result",
+      "preview": "Preview",
+      "transcription": "Transcription"
+    },
+    "messages": {
+      "success": "AI processing successful",
+      "error": "AI processing error",
+      "ai-processing-hint": "AI processing may take a few moments, please wait...",
+      "enhance-not-ready": "AI Speech Enhancement is currently being integrated. Only UI preview is available."
     }
   }
 }

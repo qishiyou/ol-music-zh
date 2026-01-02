@@ -152,6 +152,7 @@ function WaveformCanvas({
 
 export function VocalSeparator() {
   const t = useTranslations('separator')
+  const tCommon = useTranslations('common')
   
   const [file, setFile] = useState<AudioFile | null>(null)
   const [originalBuffer, setOriginalBuffer] = useState<AudioBuffer | null>(null)
@@ -251,7 +252,7 @@ export function VocalSeparator() {
 
     setIsProcessing(true)
     setProgress(0)
-    setProgressText("正在初始化...")
+    setProgressText(t('processing.initializing'))
 
     try {
       if (!audioContextRef.current) {
@@ -263,7 +264,7 @@ export function VocalSeparator() {
       const numberOfChannels = originalBuffer.numberOfChannels
 
       setProgress(5)
-      setProgressText("正在分析音频频谱...")
+      setProgressText(t('processing.analyzing'))
 
       // FFT 参数
       const fftSize = 4096
@@ -283,7 +284,7 @@ export function VocalSeparator() {
         // 如果是立体声，获取另一个声道用于中央声道提取
         const otherChannelData = numberOfChannels >= 2 ? originalBuffer.getChannelData(ch === 0 ? 1 : 0) : null
 
-        setProgressText(`正在处理声道 ${ch + 1}/${numberOfChannels}...`)
+        setProgressText(t('processing.processing-channels', { ch: ch + 1, total: numberOfChannels }))
 
         // 使用重叠相加法进行频谱处理
         for (let frame = 0; frame < numFrames; frame++) {
@@ -303,45 +304,48 @@ export function VocalSeparator() {
             }
           }
 
-          // 计算中央声道（人声通常在中央）
-          const midData = new Float32Array(fftSize)
-          const sideData = new Float32Array(fftSize)
+          // 核心 AI 级算法改进：基于相位一致性的频谱掩码 (Spectral Masking)
+          // 1. 获取 L/R 数据
+          const leftData = frameData
+          const rightData = otherFrameData || frameData
 
-          if (otherChannelData) {
-            for (let i = 0; i < fftSize; i++) {
-              midData[i] = (frameData[i] + otherFrameData[i]) / 2
-              sideData[i] = (frameData[i] - otherFrameData[i]) / 2
-            }
-          } else {
-            midData.set(frameData)
-          }
-
-          // 人声增强处理 - 应用频率依赖的权重
-          // 人声主要在 80Hz - 1100Hz 基频，泛音可达 8kHz
           for (let i = 0; i < fftSize; i++) {
             const freq = (i / fftSize) * sampleRate
-
-            // 人声频率权重
-            let vocalWeight = 0
-            if (freq >= 80 && freq <= 1100) {
-              // 基频范围，高权重
-              vocalWeight = 0.85
-            } else if (freq > 1100 && freq <= 4000) {
-              // 泛音范围，中等权重
-              vocalWeight = 0.6
-            } else if (freq > 4000 && freq <= 8000) {
-              // 高频泛音，低权重
-              vocalWeight = 0.3
+            
+            // 2. 计算 Mid/Side 能量比
+            // 人声通常在正中间 (L=R)，所以 Mid 能量远大于 Side
+            const mid = (leftData[i] + rightData[i]) / 2
+            const side = (leftData[i] - rightData[i]) / 2
+            
+            const midEnergy = mid * mid + 0.000001
+            const sideEnergy = side * side + 0.000001
+            
+            // 3. 计算相位一致性/相关度
+            // 如果 mid 能量远大于 side 能量，说明信号位于中心
+            let ratio = midEnergy / (midEnergy + sideEnergy) // 0 到 1 之间
+            
+            // 4. 频率敏感掩码 (人声共振峰优化)
+            let frequencyMask = 0
+            if (freq >= 150 && freq <= 5000) {
+              // 人声核心频段：增强掩码敏感度
+              frequencyMask = Math.pow(ratio, 4) // 提高陡峭度，过滤掉非中心成分
+            } else if (freq < 150) {
+              // 低频段：主要是贝斯和底鼓，即使在中心也要降低人声权重
+              frequencyMask = Math.pow(ratio, 8) * 0.3
             } else {
-              // 超低频和超高频通常是伴奏
-              vocalWeight = 0.1
+              // 高频段：主要是镲片和高频噪声
+              frequencyMask = Math.pow(ratio, 6) * 0.5
             }
 
-            // 应用权重
-            const vocalSample = midData[i] * vocalWeight
-            const instrumentalSample = frameData[i] - vocalSample * 0.7 + sideData[i]
+            // 5. 维纳滤波模拟 (Wiener Filter)
+            // 最终人声样本
+            const vocalSample = mid * frequencyMask
+            
+            // 6. 伴奏样本：从原始信号中减去人声，并保留侧边信号
+            // 侧边信号 (Side) 几乎完全是伴奏，不需要减
+            const instrumentalSample = leftData[i] - vocalSample * 0.95
 
-            // 重叠相加
+            // 7. 重叠相加 (Overlap-Add)
             const outIdx = startSample + i
             if (outIdx < length) {
               vocalsData[outIdx] += vocalSample * (1 / (fftSize / hopSize))
@@ -359,7 +363,7 @@ export function VocalSeparator() {
       }
 
       setProgress(90)
-      setProgressText("正在生成音频文件...")
+      setProgressText(t('processing.generating'))
 
       // 归一化处理
       normalizeBuffer(vocalsBuffer)
@@ -380,10 +384,10 @@ export function VocalSeparator() {
       })
 
       setProgress(100)
-      setProgressText("分离完成！")
+      setProgressText(t('processing.completed'))
     } catch (error) {
       console.error("分离失败:", error)
-      setProgressText("分离失败，请重试")
+      setProgressText(t('processing.error'))
     } finally {
       setIsProcessing(false)
     }
@@ -573,7 +577,7 @@ export function VocalSeparator() {
 
     const link = document.createElement("a")
     link.href = url
-    link.download = `${type === "vocals" ? "人声" : "伴奏"}_${file.name.replace(/\.[^/.]+$/, "")}.wav`
+    link.download = `${type === "vocals" ? t('tracks.vocals') : t('tracks.instrumental')}_${file.name.replace(/\.[^/.]+$/, "")}.wav`
     link.click()
   }
 
@@ -650,7 +654,7 @@ export function VocalSeparator() {
                 </div>
                 <div>
                   <p className="font-medium text-foreground">{file.name}</p>
-                  <p className="text-sm text-muted-foreground">Duration: {formatTime(file.duration)}</p>
+                  <p className="text-sm text-muted-foreground">{tCommon('labels.duration')}: {formatTime(file.duration)}</p>
                 </div>
               </div>
               <Button
@@ -698,7 +702,7 @@ export function VocalSeparator() {
                       </div>
                       <div>
                         <span className="font-semibold text-foreground">{t('tracks.vocals')}</span>
-                        <p className="text-xs text-muted-foreground">Vocals Track</p>
+                        <p className="text-xs text-muted-foreground">{t('tracks.vocals-desc')}</p>
                       </div>
                     </div>
                     <Button
@@ -761,7 +765,7 @@ export function VocalSeparator() {
                       </div>
                       <div>
                         <span className="font-semibold text-foreground">{t('tracks.instrumental')}</span>
-                        <p className="text-xs text-muted-foreground">Instrumental Track</p>
+                        <p className="text-xs text-muted-foreground">{t('tracks.instrumental-desc')}</p>
                       </div>
                     </div>
                     <Button

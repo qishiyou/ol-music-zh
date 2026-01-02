@@ -25,15 +25,16 @@ interface VideoFile {
 
 const SUPPORTED_VIDEO_FORMATS = ["mp4", "avi", "mov", "wmv", "webm", "mkv", "flv"]
 const SUPPORTED_AUDIO_FORMATS = [
-  { value: "mp3", label: "MP3", description: "最常用的音频格式" },
-  { value: "wav", label: "WAV", description: "无损音频格式" },
-  { value: "ogg", label: "OGG", description: "开源音频格式" },
-  { value: "flac", label: "FLAC", description: "无损压缩格式" },
-  { value: "aac", label: "AAC", description: "高效音频编码" },
-]
+    { value: "mp3", label: "MP3" },
+    { value: "wav", label: "WAV" },
+    { value: "ogg", label: "OGG" },
+    { value: "flac", label: "FLAC" },
+    { value: "aac", label: "AAC" },
+  ]
 
 export function VideoSeparator() {
   const t = useTranslations('video-separator')
+  const tCommon = useTranslations('common')
   
   const [files, setFiles] = useState<VideoFile[]>([])
   const [outputFormat, setOutputFormat] = useState("mp3")
@@ -41,9 +42,14 @@ export function VideoSeparator() {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const formatFileSize = (bytes: number) => {
-    if (bytes === 0) return "0 Bytes"
+    if (bytes === 0) return `0 ${tCommon('units.bytes')}`
     const k = 1024
-    const sizes = ["Bytes", "KB", "MB", "GB"]
+    const sizes = [
+      tCommon('units.bytes'),
+      tCommon('units.kb'),
+      tCommon('units.mb'),
+      tCommon('units.gb')
+    ]
     const i = Math.floor(Math.log(bytes) / Math.log(k))
     return Number.parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i]
   }
@@ -306,7 +312,7 @@ export function VideoSeparator() {
                 ...f,
                 status: "error",
                 progress: 0,
-                error: "提取音频失败，请重试",
+                error: t('status.extract-failed'),
               }
             : f,
         ),
@@ -405,7 +411,7 @@ export function VideoSeparator() {
         {files.length > 0 && (
           <div className="mt-8 space-y-3">
             <div className="flex items-center justify-between mb-4">
-              <h4 className="font-semibold text-foreground flex-1 text-center">{t('file-list')}</h4>
+              <h4 className="font-semibold text-foreground flex-1 text-center">{t('file-list', { count: files.length })}</h4>
               <Button
                 variant="ghost"
                 size="sm"

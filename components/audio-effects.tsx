@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useCallback, useRef, useEffect } from "react"
+import { useState, useCallback, useRef, useEffect, useMemo } from "react"
 import { Download, Wand2, Play, Pause, X, FileAudio, Volume2, Waves, Zap, Wind, Music, Mic, Upload } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -223,60 +223,53 @@ export function AudioEffects() {
   const [processedTime, setProcessedTime] = useState(0)
   const t = useTranslations('effects')
 
-  // Get effect translations
-  const getEffectName = (id: string) => t(`${id}.name`)
-  const getEffectDescription = (id: string) => t(`${id}.description`)
-
-  const [effects, setEffects] = useState<AudioEffect[]>([
+  const [effects, setEffects] = useState([
     {
       id: "reverb",
-      name: getEffectName("reverb"),
       icon: <Waves className="w-5 h-5" />,
-      description: getEffectDescription("reverb"),
       enabled: false,
       value: 50,
     },
     {
       id: "echo",
-      name: getEffectName("echo"),
       icon: <Volume2 className="w-5 h-5" />,
-      description: getEffectDescription("echo"),
       enabled: false,
       value: 30,
     },
     {
       id: "bass",
-      name: getEffectName("bass"),
       icon: <Music className="w-5 h-5" />,
-      description: getEffectDescription("bass"),
       enabled: false,
       value: 50,
     },
     {
       id: "treble",
-      name: getEffectName("treble"),
       icon: <Zap className="w-5 h-5" />,
-      description: getEffectDescription("treble"),
       enabled: false,
       value: 50,
     },
     {
       id: "noise",
-      name: getEffectName("noise"),
       icon: <Wind className="w-5 h-5" />,
-      description: getEffectDescription("noise"),
       enabled: false,
       value: 70,
     },
     {
       id: "vocal",
-      name: getEffectName("vocal"),
       icon: <Mic className="w-5 h-5" />,
-      description: getEffectDescription("vocal"),
       enabled: false,
       value: 50,
     },
   ])
+
+  // Computed effects with translations
+  const translatedEffects = useMemo(() => {
+    return effects.map(effect => ({
+      ...effect,
+      name: t(`${effect.id}.name`),
+      description: t(`${effect.id}.description`)
+    }));
+  }, [effects, t]);
 
   const fileInputRef = useRef<HTMLInputElement>(null)
   const audioContextRef = useRef<AudioContext | null>(null)
@@ -684,7 +677,7 @@ export function AudioEffects() {
 
     const link = document.createElement("a")
     link.href = processedUrl
-    link.download = `effects_${file.name.replace(/\.[^/.]+$/, "")}.wav`
+    link.download = t('download-filename', { name: file.name.replace(/\.[^/.]+$/, "") })
     link.click()
   }
 
@@ -833,7 +826,7 @@ export function AudioEffects() {
                         <Wand2 className="w-5 h-5 text-white" />
                       </div>
                       <div>
-                        <p className="font-medium text-foreground">处理后音频</p>
+                        <p className="font-medium text-foreground">{t('processed-audio')}</p>
                         <p className="text-sm text-muted-foreground">{t('applied-effects', { count: enabledEffectsCount })}</p>
                       </div>
                     </div>
@@ -883,7 +876,7 @@ export function AudioEffects() {
 
             {/* 音效列表 */}
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {effects.map((effect) => (
+              {translatedEffects.map((effect) => (
                 <div
                   key={effect.id}
                   className={cn(
@@ -911,7 +904,7 @@ export function AudioEffects() {
                   {effect.enabled && (
                     <div className="space-y-2">
                       <div className="flex justify-between text-xs text-muted-foreground">
-                        <span>强度</span>
+                        <span>{t('intensity')}</span>
                         <span>{effect.value}%</span>
                       </div>
                       <Slider
@@ -932,7 +925,7 @@ export function AudioEffects() {
             {isProcessing && (
               <div className="space-y-2">
                 <div className="flex justify-between text-sm text-muted-foreground">
-                  <span>正在处理音频...</span>
+                  <span>{t('processing-audio')}</span>
                   <span>{Math.round(processProgress)}%</span>
                 </div>
                 <Progress value={processProgress} className="h-2" />

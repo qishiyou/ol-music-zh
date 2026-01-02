@@ -143,11 +143,17 @@ export function AudioMerger() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const audioContextRef = useRef<AudioContext | null>(null)
   const t = useTranslations('merger')
+  const tCommon = useTranslations('common')
 
   const formatFileSize = (bytes: number) => {
-    if (bytes === 0) return "0 Bytes"
+    if (bytes === 0) return `0 ${tCommon('units.bytes')}`
     const k = 1024
-    const sizes = ["Bytes", "KB", "MB", "GB"]
+    const sizes = [
+      tCommon('units.bytes'),
+      tCommon('units.kb'),
+      tCommon('units.mb'),
+      tCommon('units.gb')
+    ]
     const i = Math.floor(Math.log(bytes) / Math.log(k))
     return Number.parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i]
   }
@@ -440,7 +446,7 @@ export function AudioMerger() {
         setMergedFile({
           id: "merged-" + Math.random().toString(36).substr(2, 9),
           file: files[0].file,
-          name: "merged-audio",
+          name: t('merged-file'),
           size: files.reduce((sum, f) => sum + f.size, 0),
           type: "mp3",
           status: "merging" as const,
@@ -455,14 +461,14 @@ export function AudioMerger() {
       const audioBuffers = files.map(file => file.audioBuffer).filter((buffer): buffer is AudioBuffer => buffer !== null)
       
       if (audioBuffers.length === 0) {
-        throw new Error("No valid audio buffers to merge")
+        throw new Error(t('error.add-failed'))
       }
       
       // 合并音频缓冲区
       const mergedBuffer = await mergeAudioBuffers(audioBuffers)
       
       if (!mergedBuffer) {
-        throw new Error("Failed to merge audio buffers")
+        throw new Error(t('error.merge-failed'))
       }
       
       // 转换为Blob
@@ -473,7 +479,7 @@ export function AudioMerger() {
           ...(mergedFile || {
             id: "merged-" + Math.random().toString(36).substr(2, 9),
             file: files[0].file,
-            name: "merged-audio",
+            name: t('merged-file'),
             size: blob.size,
             type: "mp3",
             audioBuffer: null,
@@ -508,7 +514,7 @@ export function AudioMerger() {
           ...(mergedFile || {
             id: "merged-" + Math.random().toString(36).substr(2, 9),
             file: files[0].file,
-            name: "merged-audio",
+            name: t('merged-file'),
             size: files.reduce((sum, f) => sum + f.size, 0),
             type: "mp3",
             audioBuffer: null,
@@ -754,7 +760,7 @@ export function AudioMerger() {
                     <>
                       <Badge className="bg-green-500/20 text-green-600 border-0">
                         <Check className="w-3 h-3 mr-1" />
-                        Completed
+                        {t('status.completed')}
                       </Badge>
                       <Button
                         size="icon"

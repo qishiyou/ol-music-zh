@@ -1,4 +1,4 @@
-import { SidebarLayout } from '@/components/sidebar-layout';
+import { OSLayout } from '@/components/os-layout';
 
 export default async function LocaleLayout({
   children,
@@ -20,9 +20,9 @@ export default async function LocaleLayout({
   return (
     <html lang={actualLocale}>
       <body className="font-sans antialiased">
-        <SidebarLayout locale={actualLocale} messages={messages}>
+        <OSLayout locale={actualLocale} messages={messages}>
           {children}
-        </SidebarLayout>
+        </OSLayout>
       </body>
     </html>
   );

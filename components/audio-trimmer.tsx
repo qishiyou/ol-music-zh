@@ -394,7 +394,8 @@ export function AudioTrimmer() {
     const link = document.createElement("a")
     link.href = trimmedUrl
     const baseName = file.name.replace(/\.[^/.]+$/, "")
-    link.download = `${baseName}_trimmed.wav`
+    const suffix = t('download-filename-suffix')
+    link.download = `${baseName}${suffix}.wav`
     link.click()
   }
 

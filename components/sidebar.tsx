@@ -25,11 +25,6 @@ const navItems = [
     icon: Wand2,
   },
   {
-    key: "separator",
-    href: "/separator",
-    icon: Mic2,
-  },
-  {
     key: "volume",
     href: "/volume",
     icon: Volume2,
