@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
+import { useTranslations } from "./translation-provider"
 
 interface WaveformCanvasProps {
   audioBuffer: AudioBuffer
@@ -124,7 +125,7 @@ interface AudioFile {
   outputUrl?: string
   error?: string
   audioUrl?: string
-  audioBuffer?: AudioBuffer
+  audioBuffer: AudioBuffer | null
   duration?: number
 }
 
@@ -141,6 +142,7 @@ export function AudioMerger() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const audioContextRef = useRef<AudioContext | null>(null)
+  const t = useTranslations('merger')
 
   const formatFileSize = (bytes: number) => {
     if (bytes === 0) return "0 Bytes"
@@ -180,7 +182,7 @@ export function AudioMerger() {
         SUPPORTED_FORMATS.includes(getFileExtension(file.name))
     )
 
-    const newFilesPromises = audioFiles.map(async (file) => {
+    const newFilesPromises = audioFiles.map(async (file): Promise<AudioFile> => {
       const audioUrl = URL.createObjectURL(file)
       const audioBuffer = await decodeAudioFile(file)
       
@@ -190,7 +192,7 @@ export function AudioMerger() {
         name: file.name,
         size: file.size,
         type: getFileExtension(file.name),
-        status: "pending",
+        status: "pending" as const,
         progress: 0,
         audioUrl,
         audioBuffer,
@@ -441,8 +443,9 @@ export function AudioMerger() {
           name: "merged-audio",
           size: files.reduce((sum, f) => sum + f.size, 0),
           type: "mp3",
-          status: "merging",
+          status: "merging" as const,
           progress: i,
+          audioBuffer: null,
         })
       }
     }
@@ -467,20 +470,21 @@ export function AudioMerger() {
       const url = URL.createObjectURL(blob)
       
       setMergedFile({
-        ...(mergedFile || {
-          id: "merged-" + Math.random().toString(36).substr(2, 9),
-          file: files[0].file,
-          name: "merged-audio",
-          size: blob.size,
-          type: "mp3",
-        }),
-        status: "completed",
-        progress: 100,
-        outputUrl: url,
-        audioUrl: url,
-        audioBuffer: mergedBuffer,
-        duration: mergedBuffer.duration,
-      })
+          ...(mergedFile || {
+            id: "merged-" + Math.random().toString(36).substr(2, 9),
+            file: files[0].file,
+            name: "merged-audio",
+            size: blob.size,
+            type: "mp3",
+            audioBuffer: null,
+          }),
+          status: "completed" as const,
+          progress: 100,
+          outputUrl: url,
+          audioUrl: url,
+          audioBuffer: mergedBuffer,
+          duration: mergedBuffer.duration,
+        })
     } catch (error) {
       console.error("Error merging audio:", error)
       // 失败时使用第一个文件作为回退
@@ -501,20 +505,21 @@ export function AudioMerger() {
       }
       
       setMergedFile({
-        ...(mergedFile || {
-          id: "merged-" + Math.random().toString(36).substr(2, 9),
-          file: files[0].file,
-          name: "merged-audio",
-          size: files.reduce((sum, f) => sum + f.size, 0),
-          type: "mp3",
-        }),
-        status: "completed",
-        progress: 100,
-        outputUrl: url,
-        audioUrl: url,
-        audioBuffer,
-        duration,
-      })
+          ...(mergedFile || {
+            id: "merged-" + Math.random().toString(36).substr(2, 9),
+            file: files[0].file,
+            name: "merged-audio",
+            size: files.reduce((sum, f) => sum + f.size, 0),
+            type: "mp3",
+            audioBuffer: null,
+          }),
+          status: "completed" as const,
+          progress: 100,
+          outputUrl: url,
+          audioUrl: url,
+          audioBuffer,
+          duration,
+        })
     }
     
     setIsMerging(false)
@@ -572,23 +577,23 @@ export function AudioMerger() {
           <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-lg shadow-orange-500/30">
             <Upload className="w-10 h-10 text-white" />
           </div>
-          <h3 className="text-xl font-semibold text-foreground mb-2">拖放音频文件到这里</h3>
-          <p className="text-muted-foreground mb-4">或点击选择文件上传（至少需要2个文件）</p>
-          <p className="text-sm text-muted-foreground">支持 MP3, WAV, OGG, FLAC, AAC, M4A, WMA, WebM 等格式</p>
+          <h3 className="text-xl font-semibold text-foreground mb-2">{t('upload.title')}</h3>
+          <p className="text-muted-foreground mb-4">{t('upload.description')}</p>
+          <p className="text-sm text-muted-foreground">{t('upload.supported-formats')}</p>
         </div>
 
         {/* 文件列表 */}
         {files.length > 0 && (
           <div className="mt-8 space-y-3">
             <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
-              <h4 className="font-semibold text-foreground flex-1 text-center">文件列表 ({files.length})</h4>
+              <h4 className="font-semibold text-foreground flex-1 text-center">{t('file-list.title', { count: files.length })}</h4>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={clearAll}
                 className="text-muted-foreground hover:text-foreground whitespace-nowrap"
               >
-                清空全部
+                {t('buttons.clear-all')}
               </Button>
             </div>
 
@@ -673,7 +678,7 @@ export function AudioMerger() {
                       <WaveformCanvas
                         audioBuffer={file.audioBuffer}
                         currentTime={selectedFile?.id === file.id ? currentTime : 0}
-                        duration={file.duration}
+                        duration={file.duration || 0}
                         isPlaying={isPlaying && selectedFile?.id === file.id}
                         onSeek={(time) => {
                           setCurrentTime(time)
@@ -686,7 +691,7 @@ export function AudioMerger() {
                       />
                       <div className="flex justify-between text-xs text-muted-foreground px-1">
                         <span>{formatTime(selectedFile?.id === file.id ? currentTime : 0)}</span>
-                        <span>{formatTime(file.duration)}</span>
+                        <span>{formatTime(file.duration || 0)}</span>
                       </div>
                     </div>
                   )}
@@ -706,13 +711,13 @@ export function AudioMerger() {
               className="bg-gradient-to-r from-orange-500 to-amber-500 hover:opacity-90 text-white px-8 shadow-lg shadow-orange-500/30"
             >
               {isMerging ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  合并中...
-                </>
-              ) : (
-                <>开始合并 ({files.length}个文件)</>
-              )}
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      {t('buttons.merging')}
+                    </>
+                  ) : (
+                    <> {t('buttons.start-merging', { count: files.length })}</>
+                  )}
             </Button>
           </div>
         )}
@@ -720,7 +725,7 @@ export function AudioMerger() {
         {/* 合并结果 */}
         {mergedFile && (
           <div className="mt-8 space-y-4">
-            <h4 className="font-semibold text-foreground text-center">合并结果</h4>
+            <h4 className="font-semibold text-foreground text-center">{t('result.title')}</h4>
             <div className="p-4 rounded-xl bg-white/50 backdrop-blur border border-white/30">
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500/80 to-amber-500/80 flex items-center justify-center flex-shrink-0 shadow-md">
@@ -749,7 +754,7 @@ export function AudioMerger() {
                     <>
                       <Badge className="bg-green-500/20 text-green-600 border-0">
                         <Check className="w-3 h-3 mr-1" />
-                        完成
+                        Completed
                       </Badge>
                       <Button
                         size="icon"
@@ -786,23 +791,23 @@ export function AudioMerger() {
               {mergedFile.status === "completed" && mergedFile.audioBuffer && (
                 <div className="space-y-2">
                   <WaveformCanvas
-                    audioBuffer={mergedFile.audioBuffer}
-                    currentTime={selectedFile?.id === mergedFile.id ? currentTime : 0}
-                    duration={mergedFile.duration}
-                    isPlaying={isPlaying && selectedFile?.id === mergedFile.id}
-                    onSeek={(time) => {
-                      setCurrentTime(time)
-                      if (audioRef.current && selectedFile?.id === mergedFile.id) {
-                        audioRef.current.currentTime = time
-                      }
-                    }}
-                    color="#f97316"
-                    height={60}
-                  />
+                        audioBuffer={mergedFile.audioBuffer}
+                        currentTime={selectedFile?.id === mergedFile.id ? currentTime : 0}
+                        duration={mergedFile.duration || 0}
+                        isPlaying={isPlaying && selectedFile?.id === mergedFile.id}
+                        onSeek={(time) => {
+                          setCurrentTime(time)
+                          if (audioRef.current && selectedFile?.id === mergedFile.id) {
+                            audioRef.current.currentTime = time
+                          }
+                        }}
+                        color="#f97316"
+                        height={60}
+                      />
                   <div className="flex justify-between text-xs text-muted-foreground px-1">
-                    <span>{formatTime(selectedFile?.id === mergedFile.id ? currentTime : 0)}</span>
-                    <span>{formatTime(mergedFile.duration)}</span>
-                  </div>
+                        <span>{formatTime(selectedFile?.id === mergedFile.id ? currentTime : 0)}</span>
+                        <span>{formatTime(mergedFile.duration || 0)}</span>
+                      </div>
                 </div>
               )}
             </div>

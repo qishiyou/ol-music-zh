@@ -8,6 +8,7 @@ import { Slider } from "@/components/ui/slider"
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
+import { useTranslations } from './translation-provider'
 
 interface WaveformCanvasProps {
   audioBuffer: AudioBuffer
@@ -115,6 +116,8 @@ function WaveformCanvas({
 }
 
 export function AudioRecorder() {
+  const t = useTranslations('recorder')
+  
   const [isRecording, setIsRecording] = useState(false)
   const [isPaused, setIsPaused] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -393,26 +396,26 @@ export function AudioRecorder() {
         {permissionGranted === null && (
           <div className="flex flex-col items-center gap-4 p-8 rounded-xl bg-blue-50/50 border border-blue-200 mb-6">
             <Mic className="w-12 h-12 text-blue-500" />
-            <h3 className="text-xl font-semibold text-blue-600">需要麦克风权限</h3>
-            <p className="text-blue-500 text-center">录音室功能需要访问您的麦克风设备</p>
+            <h3 className="text-xl font-semibold text-blue-600">{t('permission.title')}</h3>
+            <p className="text-blue-500 text-center">{t('permission.description')}</p>
             <Button 
               onClick={requestPermission}
               className="bg-blue-500 hover:bg-blue-600 text-white"
             >
-              请求麦克风权限
+              {t('permission.button')}
             </Button>
           </div>
         )}
         {permissionGranted === false && error && (
           <div className="flex flex-col items-center gap-4 p-8 rounded-xl bg-red-50/50 border border-red-200 mb-6">
             <AlertCircle className="w-12 h-12 text-red-500" />
-            <h3 className="text-xl font-semibold text-red-600">无法访问麦克风</h3>
+            <h3 className="text-xl font-semibold text-red-600">{t('error.title')}</h3>
             <p className="text-red-500 text-center">{error}</p>
             <Button 
               onClick={requestPermission}
               className="bg-red-500 hover:bg-red-600 text-white"
             >
-              重新请求权限
+              {t('error.retry-button')}
             </Button>
           </div>
         )}
@@ -422,12 +425,12 @@ export function AudioRecorder() {
           <div className="flex justify-center items-center gap-2 mb-4">
             {isRecording && (
               <Badge className="bg-red-500/20 text-red-500 border-0 animate-pulse">
-                {isPaused ? "录音已暂停" : "正在录音"}
+                {isPaused ? t('status.paused') : t('status.recording')}
               </Badge>
             )}
             {isPlaying && (
               <Badge className="bg-green-500/20 text-green-500 border-0">
-                正在播放
+                {t('status.playing')}
               </Badge>
             )}
           </div>
@@ -446,7 +449,7 @@ export function AudioRecorder() {
           <div className="text-3xl font-bold text-foreground mb-2">
             {formatTime(isRecording ? duration : (audioRef.current?.duration || 0))}
           </div>
-          <p className="text-muted-foreground">录制时长</p>
+          <p className="text-muted-foreground">{t('recording-time')}</p>
         </div>
         
         {/* 录音控制按钮 */}
@@ -460,7 +463,7 @@ export function AudioRecorder() {
                 className="bg-gradient-to-r from-violet-500 to-purple-500 hover:opacity-90 text-white px-8 py-6 h-auto"
               >
                 <Mic className="w-6 h-6 mr-2" />
-                开始录音
+                {t('buttons.start')}
               </Button>
             ) : isPaused ? (
               <Button
@@ -469,7 +472,7 @@ export function AudioRecorder() {
                 className="bg-gradient-to-r from-green-500 to-emerald-500 hover:opacity-90 text-white px-8 py-6 h-auto"
               >
                 <Play className="w-6 h-6 mr-2" />
-                继续录音
+                {t('buttons.resume')}
               </Button>
             ) : (
               <Button
@@ -478,7 +481,7 @@ export function AudioRecorder() {
                 className="bg-gradient-to-r from-yellow-500 to-amber-500 hover:opacity-90 text-white px-8 py-6 h-auto"
               >
                 <Pause className="w-6 h-6 mr-2" />
-                暂停录音
+                {t('buttons.pause')}
               </Button>
             )}
             
@@ -489,7 +492,7 @@ export function AudioRecorder() {
               className="bg-gradient-to-r from-red-500 to-rose-500 hover:opacity-90 text-white px-8 py-6 h-auto"
             >
               <Square className="w-6 h-6 mr-2" />
-              停止录音
+              {t('buttons.stop')}
             </Button>
             )}
           </div>
@@ -499,7 +502,7 @@ export function AudioRecorder() {
         {recordingUrl && (
           <div className="mt-10 space-y-6">
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-center text-foreground">录音播放</h3>
+              <h3 className="text-xl font-semibold text-center text-foreground">{t('playback')}</h3>
               
               {/* 波形可视化 */}
               {audioBuffer && (
@@ -534,7 +537,7 @@ export function AudioRecorder() {
                     className="bg-gradient-to-r from-green-500 to-emerald-500 hover:opacity-90 text-white px-8"
                   >
                     <Play className="w-5 h-5 mr-2" />
-                    播放
+                    {t('buttons.play')}
                   </Button>
                 ) : (
                   <Button
@@ -543,7 +546,7 @@ export function AudioRecorder() {
                     className="bg-gradient-to-r from-yellow-500 to-amber-500 hover:opacity-90 text-white px-8"
                   >
                     <Pause className="w-5 h-5 mr-2" />
-                    暂停
+                    {t('buttons.pause-playback')}
                   </Button>
                 )}
                 
@@ -553,7 +556,7 @@ export function AudioRecorder() {
                     className="bg-gradient-to-r from-gray-500 to-slate-500 hover:opacity-90 text-white px-8"
                   >
                     <Square className="w-5 h-5 mr-2" />
-                    停止
+                    {t('buttons.stop-playback')}
                   </Button>
               </div>
               
@@ -579,7 +582,7 @@ export function AudioRecorder() {
                 className="bg-gradient-to-r from-blue-500 to-indigo-500 hover:opacity-90 text-white px-6"
               >
                 <Download className="w-5 h-5 mr-2" />
-                下载录音
+                {t('buttons.download')}
               </Button>
               
               <Button
@@ -588,7 +591,7 @@ export function AudioRecorder() {
                 className="border-red-500/30 text-red-500 hover:bg-red-500/10 px-6"
               >
                 <Trash2 className="w-5 h-5 mr-2" />
-                删除录音
+                {t('buttons.delete')}
               </Button>
             </div>
           </div>
@@ -599,7 +602,6 @@ export function AudioRecorder() {
           ref={audioRef}
           onTimeUpdate={handleTimeUpdate}
           onEnded={handleEnded}
-          volume={Math.max(0, Math.min(1, volume / 100))}
         />
       </CardContent>
     </Card>

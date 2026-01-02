@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge"
 import { Slider } from "@/components/ui/slider"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
+import { useTranslations } from './translation-provider'
 
 interface AudioFile {
   id: string
@@ -27,24 +28,26 @@ interface AudioFile {
 }
 
 const SUPPORTED_FORMATS = [
-  { value: "mp3", label: "MP3", description: "最常用的音频格式" },
-  { value: "wav", label: "WAV", description: "无损音频格式" },
-  { value: "ogg", label: "OGG", description: "开源音频格式" },
-  { value: "flac", label: "FLAC", description: "无损压缩格式" },
-  { value: "aac", label: "AAC", description: "高效音频编码" },
-  { value: "m4a", label: "M4A", description: "Apple音频格式" },
-  { value: "wma", label: "WMA", description: "Windows媒体音频" },
-  { value: "webm", label: "WebM", description: "网页音频格式" },
+  { value: "mp3", label: "MP3", descriptionKey: "mp3" },
+  { value: "wav", label: "WAV", descriptionKey: "wav" },
+  { value: "ogg", label: "OGG", descriptionKey: "ogg" },
+  { value: "flac", label: "FLAC", descriptionKey: "flac" },
+  { value: "aac", label: "AAC", descriptionKey: "aac" },
+  { value: "m4a", label: "M4A", descriptionKey: "m4a" },
+  { value: "wma", label: "WMA", descriptionKey: "wma" },
+  { value: "webm", label: "WebM", descriptionKey: "webm" },
 ]
 
 const BITRATE_OPTIONS = [
-  { value: 128, label: "128 kbps", description: "标准质量" },
-  { value: 192, label: "192 kbps", description: "较高质量" },
-  { value: 256, label: "256 kbps", description: "高质量" },
-  { value: 320, label: "320 kbps", description: "最高质量" },
+  { value: 128, label: "128 kbps", descriptionKey: "128" },
+  { value: 192, label: "192 kbps", descriptionKey: "192" },
+  { value: 256, label: "256 kbps", descriptionKey: "256" },
+  { value: 320, label: "320 kbps", descriptionKey: "320" },
 ]
 
 export function AudioConverter() {
+  const t = useTranslations('converter')
+  
   const [files, setFiles] = useState<AudioFile[]>([])
   const [outputFormat, setOutputFormat] = useState("mp3")
   const [bitrate, setBitrate] = useState(192)
@@ -192,16 +195,16 @@ export function AudioConverter() {
           <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg shadow-primary/30">
             <Upload className="w-10 h-10 text-white" />
           </div>
-          <h3 className="text-xl font-semibold text-foreground mb-2">拖放音频文件到这里</h3>
-          <p className="text-muted-foreground mb-4">或点击选择文件上传</p>
-          <p className="text-sm text-muted-foreground">支持 MP3, WAV, OGG, FLAC, AAC, M4A, WMA, WebM 等格式</p>
+          <h3 className="text-xl font-semibold text-foreground mb-2">{t('upload.title')}</h3>
+          <p className="text-muted-foreground mb-4">{t('upload.description')}</p>
+          <p className="text-sm text-muted-foreground">{t('upload.supported-formats')}</p>
         </div>
 
         {/* 转换设置 */}
         {files.length > 0 && (
           <div className="mt-8 grid md:grid-cols-2 gap-6">
             <div className="space-y-3">
-              <Label className="text-foreground font-medium block text-center">输出格式</Label>
+              <Label className="text-foreground font-medium block text-center">{t('settings.output-format')}</Label>
               <Select value={outputFormat} onValueChange={setOutputFormat}>
                 <SelectTrigger className="bg-white/70 backdrop-blur border-white/30 text-foreground">
                   <SelectValue />
@@ -211,7 +214,7 @@ export function AudioConverter() {
                     <SelectItem key={format.value} value={format.value} className="text-foreground">
                       <div className="flex items-center gap-2">
                         <span className="font-medium">{format.label}</span>
-                        <span className="text-muted-foreground text-sm">- {format.description}</span>
+                        <span className="text-muted-foreground text-sm">- {t(`formats.${format.descriptionKey}`)}</span>
                       </div>
                     </SelectItem>
                   ))}
@@ -220,7 +223,7 @@ export function AudioConverter() {
             </div>
 
             <div className="space-y-3">
-              <Label className="text-foreground font-medium block text-center">比特率: {bitrate} kbps</Label>
+              <Label className="text-foreground font-medium block text-center">{t('settings.bitrate', { bitrate })}</Label>
               <Slider
                 value={[bitrate]}
                 onValueChange={([val]) => setBitrate(val)}
@@ -242,14 +245,14 @@ export function AudioConverter() {
         {files.length > 0 && (
           <div className="mt-8 space-y-3">
             <div className="flex items-center justify-between mb-4">
-              <h4 className="font-semibold text-foreground flex-1 text-center">文件列表 ({files.length})</h4>
+              <h4 className="font-semibold text-foreground flex-1 text-center">{t('file-list', { count: files.length })}</h4>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={clearAll}
                 className="text-muted-foreground hover:text-foreground"
               >
-                清空全部
+                {t('clear-all')}
               </Button>
             </div>
 
@@ -285,7 +288,7 @@ export function AudioConverter() {
                   <div className="flex items-center gap-2 flex-shrink-0">
                     {file.status === "pending" && (
                       <Badge variant="outline" className="text-muted-foreground border-muted-foreground/30">
-                        等待中
+                        {t('status.pending')}
                       </Badge>
                     )}
                     {file.status === "converting" && (
@@ -298,7 +301,7 @@ export function AudioConverter() {
                       <>
                         <Badge className="bg-green-500/20 text-green-600 border-0">
                           <Check className="w-3 h-3 mr-1" />
-                          完成
+                          {t('status.completed')}
                         </Badge>
                         <Button
                           size="icon"
@@ -313,7 +316,7 @@ export function AudioConverter() {
                     {file.status === "error" && (
                       <Badge variant="destructive">
                         <AlertCircle className="w-3 h-3 mr-1" />
-                        错误
+                        {t('status.error')}
                       </Badge>
                     )}
                     <Button
@@ -343,10 +346,10 @@ export function AudioConverter() {
               {isConverting ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  转换中...
+                  {t('status.converting')}
                 </>
               ) : (
-                <>开始转换 {pendingCount > 0 && `(${pendingCount})`}</>
+                <> {t('convert-all')} {pendingCount > 0 && `(${pendingCount})`}</>
               )}
             </Button>
 
@@ -358,7 +361,7 @@ export function AudioConverter() {
                 className="border-primary/30 text-primary hover:bg-primary/10 px-8 bg-white/50 backdrop-blur"
               >
                 <Download className="w-4 h-4 mr-2" />
-                下载全部 ({completedCount})
+                {t('download-all', { count: completedCount })}
               </Button>
             )}
           </div>

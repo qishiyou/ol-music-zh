@@ -3,48 +3,49 @@
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useTranslations } from './translation-provider'
 import { Music2, RefreshCw, Scissors, Wand2, Info, Menu, Mic2, Volume2, FileAudio, Video, Mic } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
 const navItems = [
   {
-    title: "格式转换",
+    key: "converter",
     href: "/converter",
     icon: RefreshCw,
   },
   {
-    title: "音频剪辑",
+    key: "trimmer",
     href: "/trimmer",
     icon: Scissors,
   },
   {
-    title: "音效处理",
+    key: "effects",
     href: "/effects",
     icon: Wand2,
   },
   {
-    title: "人声分离",
+    key: "separator",
     href: "/separator",
     icon: Mic2,
   },
   {
-    title: "音量调节",
+    key: "volume",
     href: "/volume",
     icon: Volume2,
   },
   {
-    title: "音频合并",
+    key: "merger",
     href: "/merger",
     icon: FileAudio,
   },
   {
-    title: "视频分离",
+    key: "video-separator",
     href: "/video-separator",
     icon: Video,
   },
   {
-    title: "录音室",
+    key: "recorder",
     href: "/recorder",
     icon: Mic,
   },
@@ -53,6 +54,7 @@ const navItems = [
 export function Sidebar() {
   const [collapsed, setCollapsed] = useState(false)
   const pathname = usePathname()
+  const t = useTranslations()
 
   return (
     <aside
@@ -82,7 +84,7 @@ export function Sidebar() {
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg shadow-primary/25 flex-shrink-0">
                 <Music2 className="w-6 h-6 text-white" />
               </div>
-              <span className="text-lg font-bold text-foreground">音乐工具箱</span>
+              <span className="text-lg font-bold text-foreground">{t('app.name')}</span>
             </div>
             <Button
               variant="ghost"
@@ -95,6 +97,9 @@ export function Sidebar() {
           </>
         )}
       </div>
+      
+      
+      
 
       {/* 主要导航菜单 */}
       <nav className="flex-1 p-3 space-y-2">
@@ -113,7 +118,7 @@ export function Sidebar() {
               )}
             >
               <item.icon className={cn("w-5 h-5 flex-shrink-0", isActive && "text-white")} />
-              {!collapsed && <span className="font-medium">{item.title}</span>}
+              {!collapsed && <span className="font-medium">{t(`navigation.${item.key}`)}</span>}
             </Link>
           )
         })}
@@ -131,7 +136,7 @@ export function Sidebar() {
           )}
         >
           <Info className="w-4 h-4 flex-shrink-0" />
-          {!collapsed && <span className="text-sm">关于我们</span>}
+          {!collapsed && <span className="text-sm">{t('navigation.home')}</span>}
         </Link>
       </div>
     </aside>

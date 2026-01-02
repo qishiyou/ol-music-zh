@@ -1,0 +1,103 @@
+{
+  "app": {
+    "name": "在线音乐工具箱",
+    "description": "免费、快速、安全的音频处理工具。支持格式转换、音频剪辑、音效处理等多种功能，让音频处理变得简单高效"
+  },
+  "features": {
+    "converter": {
+      "title": "格式转换",
+      "description": "支持 MP3、WAV、OGG、FLAC、AAC 等多种音频格式互转，高质量无损转换"
+    },
+    "trimmer": {
+      "title": "音频剪辑",
+      "description": "可视化波形编辑，精准裁剪音频片段，支持实时预览和导出"
+    },
+    "effects": {
+      "title": "音效处理",
+      "description": "混响、回声、降噪、低音增强等专业音效，提升音频品质"
+    },
+    "separator": {
+      "title": "人声分离",
+      "description": "AI 智能分离音频中的人声和伴奏，支持单独下载人声或伴奏轨道"
+    },
+    "volume": {
+      "title": "音量调节",
+      "description": "精确调节音频音量，实时波形可视化，支持批量处理"
+    },
+    "merger": {
+      "title": "音频合并",
+      "description": "合并多个音频文件，支持调整顺序，实时预览合并效果"
+    },
+    "video-separator": {
+      "title": "视频分离",
+      "description": "从视频中提取音频，支持多种视频格式，高质量音频输出"
+    },
+    "recorder": {
+      "title": "录音室",
+      "description": "高质量录音功能，实时波形显示，支持暂停恢复和下载"
+    }
+  },
+  "navigation": {
+    "home": "关于我们",
+    "converter": "格式转换",
+    "trimmer": "音频剪辑",
+    "effects": "音效处理",
+    "separator": "人声分离",
+    "volume": "音量调节",
+    "merger": "音频合并",
+    "video-separator": "视频分离",
+    "recorder": "录音室"
+  },
+  "footer": {
+    "format": "支持 10+ 音频格式",
+    "edge-computing": "本地边缘计算",
+    "no-software": "无需安装软件",
+    "no-server": "文件不上传服务器"
+  },
+  "buttons": {
+    "start-using": "立即使用",
+    "request-permission": "请求麦克风权限",
+    "re-request-permission": "重新请求权限",
+    "start-recording": "开始录音",
+    "resume-recording": "继续录音",
+    "pause-recording": "暂停录音",
+    "stop-recording": "停止录音",
+    "play": "播放",
+    "pause": "暂停",
+    "stop": "停止",
+    "download": "下载录音",
+    "delete": "删除录音",
+    "clear-all": "清空全部",
+    "merge": "开始合并",
+    "upload": "上传文件",
+    "convert": "转换",
+    "apply": "应用",
+    "extract": "提取音频"
+  },
+  "labels": {
+    "volume": "音量",
+    "duration": "时长",
+    "file-list": "文件列表",
+    "merged-file": "合并结果",
+    "recording-status": "录音状态",
+    "recording-time": "录制时长",
+    "playback": "录音播放",
+    "recording": "正在录音",
+    "paused-recording": "录音已暂停",
+    "playing": "正在播放",
+    "completed": "完成",
+    "draggable-hint": "拖放音频文件到这里",
+    "or-click-hint": "或点击选择文件上传",
+    "supported-formats": "支持 MP3, WAV, OGG, FLAC, AAC, M4A, WMA, WebM 等格式"
+  },
+  "errors": {
+    "not-found-device": "未找到麦克风设备，请检查设备连接和驱动程序",
+    "not-allowed": "麦克风权限被拒绝，请检查浏览器设置",
+    "not-readable": "麦克风设备被占用或无法访问",
+    "over-constrained": "无法满足麦克风约束条件",
+    "generic-audio-error": "无法访问麦克风",
+    "no-files-selected": "请选择至少一个文件",
+    "at-least-two-files": "至少需要2个文件",
+    "unsupported-format": "不支持的文件格式"
+  }
+}

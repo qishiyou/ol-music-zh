@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import { Switch } from "@/components/ui/switch"
 import { Progress } from "@/components/ui/progress"
 import { cn } from "@/lib/utils"
+import { useTranslations } from "./translation-provider"
 
 interface WaveformCanvasProps {
   audioBuffer: AudioBuffer
@@ -220,53 +221,58 @@ export function AudioEffects() {
   const [currentTime, setCurrentTime] = useState(0)
   const [originalTime, setOriginalTime] = useState(0)
   const [processedTime, setProcessedTime] = useState(0)
+  const t = useTranslations('effects')
+
+  // Get effect translations
+  const getEffectName = (id: string) => t(`${id}.name`)
+  const getEffectDescription = (id: string) => t(`${id}.description`)
 
   const [effects, setEffects] = useState<AudioEffect[]>([
     {
       id: "reverb",
-      name: "混响",
+      name: getEffectName("reverb"),
       icon: <Waves className="w-5 h-5" />,
-      description: "添加空间感和深度",
+      description: getEffectDescription("reverb"),
       enabled: false,
       value: 50,
     },
     {
       id: "echo",
-      name: "回声",
+      name: getEffectName("echo"),
       icon: <Volume2 className="w-5 h-5" />,
-      description: "添加延迟回声效果",
+      description: getEffectDescription("echo"),
       enabled: false,
       value: 30,
     },
     {
       id: "bass",
-      name: "低音增强",
+      name: getEffectName("bass"),
       icon: <Music className="w-5 h-5" />,
-      description: "增强低频音效",
+      description: getEffectDescription("bass"),
       enabled: false,
       value: 50,
     },
     {
       id: "treble",
-      name: "高音增强",
+      name: getEffectName("treble"),
       icon: <Zap className="w-5 h-5" />,
-      description: "增强高频音效",
+      description: getEffectDescription("treble"),
       enabled: false,
       value: 50,
     },
     {
       id: "noise",
-      name: "降噪",
+      name: getEffectName("noise"),
       icon: <Wind className="w-5 h-5" />,
-      description: "减少背景噪音",
+      description: getEffectDescription("noise"),
       enabled: false,
       value: 70,
     },
     {
       id: "vocal",
-      name: "人声增强",
+      name: getEffectName("vocal"),
       icon: <Mic className="w-5 h-5" />,
-      description: "突出人声部分",
+      description: getEffectDescription("vocal"),
       enabled: false,
       value: 50,
     },
@@ -725,8 +731,8 @@ export function AudioEffects() {
     <Card className="bg-white/60 backdrop-blur-xl border-white/30 shadow-xl shadow-primary/5 overflow-hidden">
       <CardContent className="p-6 md:p-8">
         <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold text-foreground mb-2">音效处理</h2>
-          <p className="text-muted-foreground">为音频添加专业级音效，提升听感体验</p>
+          <h2 className="text-2xl font-bold text-foreground mb-2">{t('title')}</h2>
+          <p className="text-muted-foreground">{t('description')}</p>
         </div>
 
         {!file ? (
@@ -752,11 +758,11 @@ export function AudioEffects() {
             <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-teal-500/30">
               <Wand2 className="w-10 h-10 text-white" />
             </div>
-            <h3 className="text-xl font-semibold text-foreground mb-2">上传音频文件添加音效</h3>
-            <p className="text-muted-foreground mb-4">拖放文件或点击选择</p>
+            <h3 className="text-xl font-semibold text-foreground mb-2">{t('upload.title')}</h3>
+            <p className="text-muted-foreground mb-4">{t('upload.description')}</p>
             <div className="flex items-center justify-center gap-2">
               <Upload className="w-4 h-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">支持 MP3, WAV, OGG, FLAC, M4A</span>
+              <span className="text-sm text-muted-foreground">{t('upload.supported-formats')}</span>
             </div>
           </div>
         ) : (
@@ -771,7 +777,7 @@ export function AudioEffects() {
                     </div>
                     <div>
                       <p className="font-medium text-foreground">{file.name}</p>
-                      <p className="text-sm text-muted-foreground">原始音频</p>
+                      <p className="text-sm text-muted-foreground">{t('original-audio')}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -828,7 +834,7 @@ export function AudioEffects() {
                       </div>
                       <div>
                         <p className="font-medium text-foreground">处理后音频</p>
-                        <p className="text-sm text-muted-foreground">已应用 {enabledEffectsCount} 个音效</p>
+                        <p className="text-sm text-muted-foreground">{t('applied-effects', { count: enabledEffectsCount })}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -935,36 +941,36 @@ export function AudioEffects() {
 
             {/* 操作按钮 */}
             <div className="flex flex-wrap justify-center gap-3">
-              <Badge variant="secondary" className="bg-primary/10 text-primary py-2 px-4">
-                已选择 {enabledEffectsCount} 个音效
-              </Badge>
-            </div>
+                  <Badge variant="secondary" className="bg-primary/10 text-primary py-2 px-4">
+                    {t('enabled-effects-count', { count: enabledEffectsCount })}
+                  </Badge>
+                </div>
 
             <div className="flex flex-wrap justify-center gap-3">
               <Button
-                onClick={applyEffects}
-                disabled={isProcessing || enabledEffectsCount === 0}
-                className="bg-gradient-to-r from-teal-500 to-cyan-500 hover:opacity-90 text-white shadow-lg shadow-teal-500/30"
-              >
-                {isProcessing ? (
-                  <>处理中...</>
-                ) : (
-                  <>
-                    <Wand2 className="w-4 h-4 mr-2" />
-                    应用音效
-                  </>
-                )}
-              </Button>
+                    onClick={applyEffects}
+                    disabled={isProcessing || enabledEffectsCount === 0}
+                    className="bg-gradient-to-r from-teal-500 to-cyan-500 hover:opacity-90 text-white shadow-lg shadow-teal-500/30"
+                  >
+                    {isProcessing ? (
+                      <>{t('processing')}</>
+                    ) : (
+                      <>
+                        <Wand2 className="w-4 h-4 mr-2" />
+                        {t('apply-effects')}
+                      </>
+                    )}
+                  </Button>
 
-              {processedUrl && (
-                <Button
-                  onClick={downloadProcessed}
-                  className="bg-gradient-to-r from-green-500 to-emerald-500 hover:opacity-90 text-white shadow-lg shadow-green-500/30"
-                >
-                  <Download className="w-4 h-4 mr-2" />
-                  下载处理后的音频
-                </Button>
-              )}
+                  {processedUrl && (
+                    <Button
+                      onClick={downloadProcessed}
+                      className="bg-gradient-to-r from-green-500 to-emerald-500 hover:opacity-90 text-white shadow-lg shadow-green-500/30"
+                    >
+                      <Download className="w-4 h-4 mr-2" />
+                      {t('download-processed')}
+                    </Button>
+                  )}
             </div>
           </div>
         )}

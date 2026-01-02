@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
+import { useTranslations } from './translation-provider'
 
 interface TrimFile {
   id: string
@@ -19,6 +20,8 @@ interface TrimFile {
 }
 
 export function AudioTrimmer() {
+  const t = useTranslations('trimmer')
+  
   const [file, setFile] = useState<TrimFile | null>(null)
   const [isDragging, setIsDragging] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -413,8 +416,8 @@ export function AudioTrimmer() {
     <Card className="bg-white/60 backdrop-blur-xl border-white/30 shadow-xl shadow-primary/5 overflow-hidden">
       <CardContent className="p-6 md:p-8">
         <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold text-foreground mb-2">音频剪辑</h2>
-          <p className="text-muted-foreground">精准裁剪音频片段，支持可视化波形编辑</p>
+          <h2 className="text-2xl font-bold text-foreground mb-2">{t('title')}</h2>
+          <p className="text-muted-foreground">{t('description')}</p>
         </div>
 
         {!file ? (
@@ -440,11 +443,11 @@ export function AudioTrimmer() {
             <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-accent to-pink-400 flex items-center justify-center shadow-lg shadow-accent/30">
               <Scissors className="w-10 h-10 text-white" />
             </div>
-            <h3 className="text-xl font-semibold text-foreground mb-2">上传音频文件进行剪辑</h3>
-            <p className="text-muted-foreground mb-4">拖放文件或点击选择</p>
+            <h3 className="text-xl font-semibold text-foreground mb-2">{t('upload.title')}</h3>
+            <p className="text-muted-foreground mb-4">{t('upload.description')}</p>
             <div className="flex items-center justify-center gap-2">
               <Upload className="w-4 h-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">支持 MP3, WAV, OGG, FLAC, M4A</span>
+              <span className="text-sm text-muted-foreground">{t('upload.supported-formats')}</span>
             </div>
           </div>
         ) : (
@@ -457,7 +460,7 @@ export function AudioTrimmer() {
                 </div>
                 <div>
                   <p className="font-medium text-foreground">{file.name}</p>
-                  <p className="text-sm text-muted-foreground">总时长: {formatTime(file.duration)}</p>
+                  <p className="text-sm text-muted-foreground">{t('total-duration')}: {formatTime(file.duration)}</p>
                 </div>
               </div>
               <Button
@@ -501,17 +504,17 @@ export function AudioTrimmer() {
             {/* 时间信息 */}
             <div className="grid grid-cols-3 gap-4 text-center">
               <div className="p-3 rounded-xl bg-white/50 backdrop-blur border border-white/30">
-                <Label className="text-xs text-muted-foreground">开始时间</Label>
+                <Label className="text-xs text-muted-foreground">{t('start-time')}</Label>
                 <p className="font-mono font-medium text-foreground">{formatTime((trimStart / 100) * file.duration)}</p>
               </div>
               <div className="p-3 rounded-xl bg-primary/10 backdrop-blur border border-primary/20">
-                <Label className="text-xs text-primary">剪辑时长</Label>
+                <Label className="text-xs text-primary">{t('trim-duration')}</Label>
                 <p className="font-mono font-bold text-primary">
                   {formatTime(((trimEnd - trimStart) / 100) * file.duration)}
                 </p>
               </div>
               <div className="p-3 rounded-xl bg-white/50 backdrop-blur border border-white/30">
-                <Label className="text-xs text-muted-foreground">结束时间</Label>
+                <Label className="text-xs text-muted-foreground">{t('end-time')}</Label>
                 <p className="font-mono font-medium text-foreground">{formatTime((trimEnd / 100) * file.duration)}</p>
               </div>
             </div>
@@ -519,7 +522,7 @@ export function AudioTrimmer() {
             {/* 提示信息 */}
             <div className="text-center">
               <Badge variant="secondary" className="bg-accent/10 text-accent">
-                拖动波形图上的紫色边界线来调整剪辑范围
+                {t('tip')}
               </Badge>
             </div>
 
@@ -531,7 +534,7 @@ export function AudioTrimmer() {
                 className="border-primary/30 text-primary hover:bg-primary/10 bg-white/50 backdrop-blur"
               >
                 {isPlaying ? <Pause className="w-4 h-4 mr-2" /> : <Play className="w-4 h-4 mr-2" />}
-                {isPlaying ? "暂停" : "预览选区"}
+                {isPlaying ? t('pause') : t('preview')}
               </Button>
 
               <Button
@@ -543,7 +546,7 @@ export function AudioTrimmer() {
                 className="border-muted-foreground/30 text-muted-foreground hover:bg-muted/50 bg-white/50 backdrop-blur"
               >
                 <RotateCcw className="w-4 h-4 mr-2" />
-                重置选区
+                {t('reset')}
               </Button>
 
               <Button
@@ -552,11 +555,11 @@ export function AudioTrimmer() {
                 className="bg-gradient-to-r from-accent to-pink-400 hover:opacity-90 text-white shadow-lg shadow-accent/30"
               >
                 {isTrimming ? (
-                  <>处理中...</>
+                  <>{t('trimming')}</>
                 ) : (
                   <>
                     <Scissors className="w-4 h-4 mr-2" />
-                    开始剪辑
+                    {t('trim')}
                   </>
                 )}
               </Button>
@@ -567,7 +570,7 @@ export function AudioTrimmer() {
                   className="bg-gradient-to-r from-green-500 to-emerald-500 hover:opacity-90 text-white shadow-lg shadow-green-500/30"
                 >
                   <Download className="w-4 h-4 mr-2" />
-                  下载剪辑 (WAV)
+                  {t('download')}
                 </Button>
               )}
             </div>

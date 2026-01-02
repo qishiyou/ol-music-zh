@@ -9,6 +9,7 @@ import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
+import { useTranslations } from './translation-provider'
 
 interface WaveformCanvasProps {
   audioBuffer: AudioBuffer
@@ -127,13 +128,15 @@ interface AudioFile {
   volumeLevel: number
   error?: string
   audioUrl?: string
-  audioBuffer?: AudioBuffer
+  audioBuffer: AudioBuffer | null
   duration?: number
 }
 
 const SUPPORTED_FORMATS = ["mp3", "wav", "ogg", "flac", "aac", "m4a", "wma", "webm"]
 
 export function AudioVolume() {
+  const t = useTranslations('volume')
+  
   const [files, setFiles] = useState<AudioFile[]>([])
   const [isDragging, setIsDragging] = useState(false)
   const [selectedFile, setSelectedFile] = useState<AudioFile | null>(null)
@@ -182,7 +185,7 @@ export function AudioVolume() {
         SUPPORTED_FORMATS.includes(getFileExtension(file.name))
     )
 
-    const newFilesPromises = audioFiles.map(async (file) => {
+    const newFilesPromises = audioFiles.map(async (file): Promise<AudioFile> => {
       const audioUrl = URL.createObjectURL(file)
       const audioBuffer = await decodeAudioFile(file)
       
@@ -192,7 +195,7 @@ export function AudioVolume() {
         name: file.name,
         size: file.size,
         type: getFileExtension(file.name),
-        status: "pending",
+        status: "pending" as const,
         progress: 0,
         volumeLevel: 100,
         audioUrl,
@@ -390,23 +393,23 @@ export function AudioVolume() {
           <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/30">
             <Upload className="w-10 h-10 text-white" />
           </div>
-          <h3 className="text-xl font-semibold text-foreground mb-2">拖放音频文件到这里</h3>
-          <p className="text-muted-foreground mb-4">或点击选择文件上传</p>
-          <p className="text-sm text-muted-foreground">支持 MP3, WAV, OGG, FLAC, AAC, M4A, WMA, WebM 等格式</p>
+          <h3 className="text-xl font-semibold text-foreground mb-2">{t('upload.title')}</h3>
+          <p className="text-muted-foreground mb-4">{t('upload.description')}</p>
+          <p className="text-sm text-muted-foreground">{t('upload.supported-formats')}</p>
         </div>
 
         {/* 文件列表 */}
         {files.length > 0 && (
           <div className="mt-8 space-y-3">
             <div className="flex items-center justify-between mb-4">
-              <h4 className="font-semibold text-foreground flex-1 text-center">文件列表 ({files.length})</h4>
+              <h4 className="font-semibold text-foreground flex-1 text-center">{t('file-list', { count: files.length })}</h4>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={clearAll}
                 className="text-muted-foreground hover:text-foreground"
               >
-                清空全部
+                {t('clear-all')}
               </Button>
             </div>
 
@@ -438,7 +441,7 @@ export function AudioVolume() {
                         {file.status === "completed" && (
                           <>
                             <ArrowRight className="w-3 h-3" />
-                            <Badge className="bg-accent/20 text-accent text-xs uppercase">已处理</Badge>
+                            <Badge className="bg-accent/20 text-accent text-xs uppercase">{t('status.completed')}</Badge>
                           </>
                         )}
                       </div>
@@ -448,7 +451,7 @@ export function AudioVolume() {
                     <div className="flex items-center gap-2 flex-shrink-0">
                       {file.status === "pending" && (
                         <Badge variant="outline" className="text-muted-foreground border-muted-foreground/30">
-                          等待中
+                          {t('status.pending')}
                         </Badge>
                       )}
                       {file.status === "processing" && (
@@ -461,7 +464,7 @@ export function AudioVolume() {
                         <>
                           <Badge className="bg-green-500/20 text-green-600 border-0">
                             <Check className="w-3 h-3 mr-1" />
-                            完成
+                            {t('status.completed')}
                           </Badge>
                           <Button
                             size="icon"
@@ -476,7 +479,7 @@ export function AudioVolume() {
                       {file.status === "error" && (
                         <Badge variant="destructive">
                           <AlertCircle className="w-3 h-3 mr-1" />
-                          错误
+                          {t('status.error')}
                         </Badge>
                       )}
                       <Button
@@ -496,7 +499,7 @@ export function AudioVolume() {
                       <WaveformCanvas
                         audioBuffer={file.audioBuffer}
                         currentTime={selectedFile?.id === file.id ? currentTime : 0}
-                        duration={file.duration}
+                        duration={file.duration || 0}
                         isPlaying={isPlaying && selectedFile?.id === file.id}
                         onSeek={(time) => {
                           setCurrentTime(time)
@@ -509,7 +512,7 @@ export function AudioVolume() {
                       />
                       <div className="flex justify-between text-xs text-muted-foreground px-1">
                         <span>{formatTime(selectedFile?.id === file.id ? currentTime : 0)}</span>
-                        <span>{formatTime(file.duration)}</span>
+                        <span>{formatTime(file.duration || 0)}</span>
                       </div>
                     </div>
                   )}
@@ -518,7 +521,7 @@ export function AudioVolume() {
                   <div className="space-y-2 pl-14">
                     <div className="flex items-center gap-2 justify-between">
                       <Label className="text-foreground font-medium">
-                        音量: {file.volumeLevel}%
+                        {t('volume-level', { level: file.volumeLevel })}
                       </Label>
                       <Button
                         size="icon"
@@ -564,10 +567,10 @@ export function AudioVolume() {
               {isProcessing ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  处理中...
+                  {t('status.processing')}
                 </>
               ) : (
-                <>开始处理 {pendingCount > 0 && `(${pendingCount})`}</>
+                <> {t('process-all')} {pendingCount > 0 && `(${pendingCount})`}</>
               )}
             </Button>
 
@@ -579,7 +582,7 @@ export function AudioVolume() {
                 className="border-blue-500/30 text-blue-500 hover:bg-blue-500/10 px-8 bg-white/50 backdrop-blur"
               >
                 <Download className="w-4 h-4 mr-2" />
-                下载全部 ({completedCount})
+                {t('download-all', { count: completedCount })}
               </Button>
             )}
           </div>

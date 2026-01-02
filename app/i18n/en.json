@@ -1,0 +1,341 @@
+{
+  "app": {
+    "name": "Online Music Toolbox",
+    "description": "Free, fast, and secure audio processing tools. Supports format conversion, audio trimming, sound effects, and more, making audio processing simple and efficient"
+  },
+  "features": {
+    "converter": {
+      "title": "Format Conversion",
+      "description": "Support for mutual conversion between MP3, WAV, OGG, FLAC, AAC and other audio formats with high-quality lossless conversion"
+    },
+    "trimmer": {
+      "title": "Audio Trimming",
+      "description": "Visual waveform editing, precise audio segment cutting, support for real-time preview and export"
+    },
+    "effects": {
+      "title": "Sound Effects",
+      "description": "Professional effects such as reverb, echo, noise reduction, bass enhancement to improve audio quality"
+    },
+    "separator": {
+      "title": "Vocal Separation",
+      "description": "AI intelligent separation of vocals and accompaniment in audio, support for separate download of vocals or accompaniment tracks"
+    },
+    "volume": {
+      "title": "Volume Adjustment",
+      "description": "Precise audio volume adjustment with real-time waveform visualization, support for batch processing"
+    },
+    "merger": {
+      "title": "Audio Merger",
+      "description": "Merge multiple audio files, support for adjusting order, real-time preview of merge effects"
+    },
+    "video-separator": {
+      "title": "Video Separation",
+      "description": "Extract audio from video, support for multiple video formats, high-quality audio output"
+    },
+    "recorder": {
+      "title": "Recording Studio",
+      "description": "High-quality recording function with real-time waveform display, support for pause, resume and download"
+    }
+  },
+  "navigation": {
+    "home": "About Us",
+    "converter": "Format Conversion",
+    "trimmer": "Audio Trimming",
+    "effects": "Sound Effects",
+    "separator": "Vocal Separation",
+    "volume": "Volume Adjustment",
+    "merger": "Audio Merger",
+    "video-separator": "Video Separation",
+    "recorder": "Recording Studio"
+  },
+  "footer": {
+    "format": "Support for 10+ Audio Formats",
+    "edge-computing": "Local Edge Computing",
+    "no-software": "No Software Installation Required",
+    "no-server": "Files Not Uploaded to Server",
+    "copyright": "© 2025 AudioConvert. Free Online Music Toolbox"
+  },
+  "buttons": {
+    "start-using": "Start Using",
+    "request-permission": "Request Microphone Permission",
+    "re-request-permission": "Re-request Permission",
+    "start-recording": "Start Recording",
+    "resume-recording": "Resume Recording",
+    "pause-recording": "Pause Recording",
+    "stop-recording": "Stop Recording",
+    "play": "Play",
+    "pause": "Pause",
+    "stop": "Stop",
+    "download": "Download Recording",
+    "delete": "Delete Recording",
+    "clear-all": "Clear All",
+    "merge": "Start Merging",
+    "upload": "Upload Files",
+    "convert": "Convert",
+    "apply": "Apply",
+    "extract": "Extract Audio",
+    "start-merging": "Start Merging"
+  },
+  "labels": {
+    "volume": "Volume",
+    "duration": "Duration",
+    "file-list": "File List",
+    "merged-file": "Merge Result",
+    "recording-status": "Recording Status",
+    "recording-time": "Recording Duration",
+    "playback": "Recording Playback",
+    "recording": "Recording",
+    "paused-recording": "Recording Paused",
+    "playing": "Playing",
+    "completed": "Completed",
+    "draggable-hint": "Drag and drop audio files here",
+    "or-click-hint": "Or click to select files to upload",
+    "supported-formats": "Supports MP3, WAV, OGG, FLAC, AAC, M4A, WMA, WebM and other formats"
+  },
+  "errors": {
+    "not-found-device": "Microphone device not found, please check device connection",
+    "not-allowed": "Microphone permission denied, please check browser settings",
+    "not-readable": "Microphone device is occupied or inaccessible",
+    "over-constrained": "Unable to meet microphone constraints",
+    "generic-audio-error": "Unable to access microphone",
+    "no-files-selected": "Please select at least one file",
+    "at-least-two-files": "At least 2 files are required",
+    "unsupported-format": "Unsupported file format"
+  },
+  "effects": {
+    "title": "Sound Effects",
+    "description": "Add professional effects to enhance your audio",
+    "original-audio": "Original Audio",
+    "applied-effects": "Applied Effects: {count}",
+    "enabled-effects-count": "{count} effects enabled",
+    "processing": "Processing...",
+    "apply-effects": "Apply Effects",
+    "download-processed": "Download Processed Audio",
+    "upload": {
+      "title": "Upload Audio File",
+      "description": "Drag and drop audio files here or click to upload",
+      "supported-formats": "Supports MP3, WAV, OGG, FLAC, AAC, M4A, WMA, WebM"
+    },
+    "reverb": {
+      "name": "Reverb",
+      "description": "Add spatial sense and depth"
+    },
+    "echo": {
+      "name": "Echo",
+      "description": "Add delay echo effect"
+    },
+    "bass": {
+      "name": "Bass Boost",
+      "description": "Enhance low-frequency sound"
+    },
+    "treble": {
+      "name": "Treble Boost",
+      "description": "Enhance high-frequency sound"
+    },
+    "noise": {
+      "name": "Noise Reduction",
+      "description": "Reduce background noise"
+    },
+    "vocal": {
+      "name": "Vocal Enhancement",
+      "description": "Highlight vocal parts"
+    }
+  },
+  "merger": {
+    "title": "Audio Merger",
+    "description": "Merge multiple audio files into one",
+    "file-list": {
+      "title": "File List ({count})"
+    },
+    "upload": {
+      "title": "Upload Audio Files",
+      "description": "Drag and drop multiple audio files here or click to upload",
+      "supported-formats": "Supports MP3, WAV, OGG, FLAC, AAC, M4A, WMA, WebM"
+    },
+    "result": {
+      "title": "Merge Result"
+    },
+    "buttons": {
+      "merging": "Merging...",
+      "start-merging": "Start Merging ({count})"
+    }
+  },
+  "volume": {
+    "title": "Volume Adjustment",
+    "description": "Adjust audio volume precisely",
+    "upload": {
+      "title": "Drag and drop audio files here",
+      "description": "Or click to select files",
+      "supported-formats": "Supports MP3, WAV, OGG, FLAC, AAC, M4A, WMA, WebM"
+    },
+    "file-list": "File List ({count})",
+    "clear-all": "Clear All",
+    "volume-level": "Volume: {level}%",
+    "play": "Play",
+    "pause": "Pause",
+    "status": {
+      "pending": "Pending",
+      "processing": "Processing...",
+      "completed": "Processed",
+      "error": "Error"
+    },
+    "process-all": "Start Processing",
+    "download-all": "Download All ({count})",
+    "processed": "Processed"
+  },
+  "trimmer": {
+    "title": "Audio Trimming",
+    "description": "Precise audio segment cutting, support for visual waveform editing",
+    "upload": {
+      "title": "Upload Audio File for Trimming",
+      "description": "Drag and drop files or click to select",
+      "supported-formats": "Supports MP3, WAV, OGG, FLAC, M4A"
+    },
+    "preview": "Preview Selection",
+    "pause": "Pause",
+    "reset": "Reset Selection",
+    "trimming": "Processing...",
+    "trim": "Start Trimming",
+    "download": "Download Trimmed (WAV)",
+    "total-duration": "Total Duration",
+    "start-time": "Start Time",
+    "trim-duration": "Trim Duration",
+    "end-time": "End Time",
+    "tip": "Drag the purple boundary lines on the waveform to adjust the trim range",
+    "original-audio": "Original Audio"
+  },
+  "converter": {
+    "title": "Audio Converter",
+    "description": "Convert audio files to different formats",
+    "upload": {
+      "title": "Drag and drop audio files here",
+      "description": "Or click to select files",
+      "supported-formats": "Supports MP3, WAV, OGG, FLAC, AAC, M4A, WMA, WebM and other formats"
+    },
+    "settings": {
+      "output-format": "Output Format",
+      "bitrate": "Bitrate: {bitrate} kbps"
+    },
+    "file-list": "File List ({count})",
+    "clear-all": "Clear All",
+    "status": {
+      "pending": "Pending",
+      "converting": "Converting...",
+      "completed": "Completed",
+      "error": "Error"
+    },
+    "formats": {
+      "mp3": "Most common audio format",
+      "wav": "Lossless audio format",
+      "ogg": "Open source audio format",
+      "flac": "Lossless compression format",
+      "aac": "Advanced Audio Coding",
+      "m4a": "Apple audio format",
+      "wma": "Windows Media Audio",
+      "webm": "Web audio format"
+    },
+    "bitrates": {
+      "128": "Standard quality",
+      "192": "Higher quality",
+      "256": "High quality",
+      "320": "Highest quality"
+    },
+    "convert": "Convert {count}",
+    "download-all": "Download All ({count})",
+    "convert-all": "Start Conversion"
+  },
+  "recorder": {
+    "title": "Recording Studio",
+    "description": "High-quality recording with real-time waveform display",
+    "permission": {
+      "title": "Microphone Permission Required",
+      "description": "The recording studio needs access to your microphone device",
+      "button": "Request Microphone Permission"
+    },
+    "error": {
+      "title": "Cannot Access Microphone",
+      "retry-button": "Request Permission Again"
+    },
+    "recording-status": "Recording Status",
+    "recording-time": "Recording Duration",
+    "buttons": {
+      "start": "Start Recording",
+      "pause": "Pause Recording",
+      "resume": "Resume Recording",
+      "stop": "Stop Recording",
+      "play": "Play",
+      "pause-playback": "Pause",
+      "stop-playback": "Stop",
+      "download": "Download Recording",
+      "delete": "Delete Recording"
+    },
+    "status": {
+      "recording": "Recording",
+      "paused": "Recording Paused",
+      "playing": "Playing"
+    },
+    "playback": "Recording Playback",
+    "volume": "Volume"
+  },
+  "separator": {
+    "title": "Vocal Separation",
+    "description": "AI intelligent separation of vocals and accompaniment in audio",
+    "upload": {
+      "title": "Upload Audio File for Vocal Separation",
+      "description": "Drag and drop files or click to select",
+      "supported-formats": "Supports MP3, WAV, OGG, FLAC, M4A"
+    },
+    "buttons": {
+      "start-separating": "Start Separating Vocals",
+      "download-vocals": "Download Vocals",
+      "download-instrumental": "Download Instrumental",
+      "upload-new": "Upload New File"
+    },
+    "processing": {
+      "initializing": "Initializing...",
+      "analyzing": "Analyzing audio spectrum...",
+      "processing-channels": "Processing channel {ch}/{total}...",
+      "generating": "Generating audio files...",
+      "completed": "Separation completed!"
+    },
+    "tracks": {
+      "vocals": "Vocals Track",
+      "instrumental": "Instrumental Track"
+    },
+    "actions": {
+      "play": "Play",
+      "pause": "Pause"
+    }
+  },
+  "video-separator": {
+    "title": "Video Separation",
+    "description": "Extract audio from video files",
+    "upload": {
+      "title": "Drag and drop video files here",
+      "description": "Or click to select files",
+      "supported-formats": "Supports MP4, AVI, MOV, WMV, WebM, MKV, FLV and other formats"
+    },
+    "settings": {
+      "output-format": "Output Audio Format"
+    },
+    "formats": {
+      "mp3": "Most common audio format",
+      "wav": "Lossless audio format",
+      "ogg": "Open source audio format",
+      "flac": "Lossless compression format",
+      "aac": "Advanced Audio Coding"
+    },
+    "file-list": "File List ({count})",
+    "clear-all": "Clear All",
+    "status": {
+      "pending": "Pending",
+      "extracting": "Extracting...",
+      "completed": "Completed",
+      "error": "Error"
+    },
+    "buttons": {
+      "extract-all": "Start Extracting Audio",
+      "download-all": "Download All ({count})"
+    }
+  }
+}

@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
+import { useTranslations } from './translation-provider'
 
 interface VideoFile {
   id: string
@@ -32,6 +33,8 @@ const SUPPORTED_AUDIO_FORMATS = [
 ]
 
 export function VideoSeparator() {
+  const t = useTranslations('video-separator')
+  
   const [files, setFiles] = useState<VideoFile[]>([])
   const [outputFormat, setOutputFormat] = useState("mp3")
   const [isDragging, setIsDragging] = useState(false)
@@ -369,16 +372,16 @@ export function VideoSeparator() {
           <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-emerald-500 to-green-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
             <Upload className="w-10 h-10 text-white" />
           </div>
-          <h3 className="text-xl font-semibold text-foreground mb-2">拖放视频文件到这里</h3>
-          <p className="text-muted-foreground mb-4">或点击选择文件上传</p>
-          <p className="text-sm text-muted-foreground">支持 MP4, AVI, MOV, WMV, WebM, MKV, FLV 等格式</p>
+          <h3 className="text-xl font-semibold text-foreground mb-2">{t('upload.title')}</h3>
+          <p className="text-muted-foreground mb-4">{t('upload.description')}</p>
+          <p className="text-sm text-muted-foreground">{t('upload.supported-formats')}</p>
         </div>
 
         {/* 转换设置 */}
         {files.length > 0 && (
           <div className="mt-8 flex flex-col items-center">
             <div className="w-full max-w-md space-y-3">
-              <label className="text-foreground font-medium block text-center">输出音频格式</label>
+              <label className="text-foreground font-medium block text-center">{t('settings.output-format')}</label>
               <Select value={outputFormat} onValueChange={setOutputFormat}>
                 <SelectTrigger className="bg-white/70 backdrop-blur border-white/30 text-foreground">
                   <SelectValue />
@@ -388,7 +391,7 @@ export function VideoSeparator() {
                     <SelectItem key={format.value} value={format.value} className="text-foreground">
                       <div className="flex items-center gap-2">
                         <span className="font-medium">{format.label}</span>
-                        <span className="text-muted-foreground text-sm">- {format.description}</span>
+                        <span className="text-muted-foreground text-sm">- {t(`formats.${format.value}`)}</span>
                       </div>
                     </SelectItem>
                   ))}
@@ -402,14 +405,14 @@ export function VideoSeparator() {
         {files.length > 0 && (
           <div className="mt-8 space-y-3">
             <div className="flex items-center justify-between mb-4">
-              <h4 className="font-semibold text-foreground flex-1 text-center">文件列表 ({files.length})</h4>
+              <h4 className="font-semibold text-foreground flex-1 text-center">{t('file-list')}</h4>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={clearAll}
                 className="text-muted-foreground hover:text-foreground"
               >
-                清空全部
+                {t('clear-all')}
               </Button>
             </div>
 
@@ -448,7 +451,7 @@ export function VideoSeparator() {
                   <div className="flex items-center gap-2 flex-shrink-0">
                     {file.status === "pending" && (
                       <Badge variant="outline" className="text-muted-foreground border-muted-foreground/30">
-                        等待中
+                        {t('status.pending')}
                       </Badge>
                     )}
                     {file.status === "extracting" && (
@@ -461,7 +464,7 @@ export function VideoSeparator() {
                       <>
                         <Badge className="bg-green-500/20 text-green-600 border-0">
                           <Check className="w-3 h-3 mr-1" />
-                          完成
+                          {t('status.completed')}
                         </Badge>
                         <Button
                           size="icon"
@@ -476,7 +479,7 @@ export function VideoSeparator() {
                     {file.status === "error" && (
                       <Badge variant="destructive">
                         <AlertCircle className="w-3 h-3 mr-1" />
-                        错误
+                        {t('status.error')}
                       </Badge>
                     )}
                     <Button
@@ -506,10 +509,10 @@ export function VideoSeparator() {
               {isExtracting ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  提取中...
+                  {t('status.extracting')}
                 </>
               ) : (
-                <>开始提取音频 {pendingCount > 0 && `(${pendingCount})`}</>
+                <> {t('buttons.extract-all')} {pendingCount > 0 && `(${pendingCount})`}</>
               )}
             </Button>
 
@@ -521,7 +524,7 @@ export function VideoSeparator() {
                 className="border-emerald-500/30 text-emerald-500 hover:bg-emerald-500/10 px-8 bg-white/50 backdrop-blur"
               >
                 <Download className="w-4 h-4 mr-2" />
-                下载全部 ({completedCount})
+                {t('buttons.download-all', { count: completedCount })}
               </Button>
             )}
           </div>

@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Slider } from "@/components/ui/slider"
 import { cn } from "@/lib/utils"
+import { useTranslations } from './translation-provider'
 
 interface AudioFile {
   id: string
@@ -150,6 +151,8 @@ function WaveformCanvas({
 }
 
 export function VocalSeparator() {
+  const t = useTranslations('separator')
+  
   const [file, setFile] = useState<AudioFile | null>(null)
   const [originalBuffer, setOriginalBuffer] = useState<AudioBuffer | null>(null)
   const [isDragging, setIsDragging] = useState(false)
@@ -603,8 +606,8 @@ export function VocalSeparator() {
     <Card className="bg-white/60 backdrop-blur-xl border-white/30 shadow-xl shadow-primary/5 overflow-hidden">
       <CardContent className="p-6 md:p-8">
         <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold text-foreground mb-2">人声分离</h2>
-          <p className="text-muted-foreground">智能分离音频中的人声和伴奏轨道</p>
+          <h2 className="text-2xl font-bold text-foreground mb-2">{t('title')}</h2>
+          <p className="text-muted-foreground">{t('description')}</p>
         </div>
 
         {!file ? (
@@ -630,11 +633,11 @@ export function VocalSeparator() {
             <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
               <Mic className="w-10 h-10 text-white" />
             </div>
-            <h3 className="text-xl font-semibold text-foreground mb-2">上传音频文件进行人声分离</h3>
-            <p className="text-muted-foreground mb-4">拖放文件或点击选择</p>
+            <h3 className="text-xl font-semibold text-foreground mb-2">{t('upload.title')}</h3>
+            <p className="text-muted-foreground mb-4">{t('upload.description')}</p>
             <div className="flex items-center justify-center gap-2">
               <Upload className="w-4 h-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">支持 MP3, WAV, OGG, FLAC, M4A</span>
+              <span className="text-sm text-muted-foreground">{t('upload.supported-formats')}</span>
             </div>
           </div>
         ) : (
@@ -647,7 +650,7 @@ export function VocalSeparator() {
                 </div>
                 <div>
                   <p className="font-medium text-foreground">{file.name}</p>
-                  <p className="text-sm text-muted-foreground">时长: {formatTime(file.duration)}</p>
+                  <p className="text-sm text-muted-foreground">Duration: {formatTime(file.duration)}</p>
                 </div>
               </div>
               <Button
@@ -678,7 +681,7 @@ export function VocalSeparator() {
                     className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90 text-white shadow-lg shadow-purple-500/30"
                   >
                     <Mic className="w-4 h-4 mr-2" />
-                    开始分离人声
+                    {t('buttons.start-separating')}
                   </Button>
                 )}
               </div>
@@ -694,7 +697,7 @@ export function VocalSeparator() {
                         <Mic className="w-5 h-5 text-white" />
                       </div>
                       <div>
-                        <span className="font-semibold text-foreground">人声轨道</span>
+                        <span className="font-semibold text-foreground">{t('tracks.vocals')}</span>
                         <p className="text-xs text-muted-foreground">Vocals Track</p>
                       </div>
                     </div>
@@ -704,7 +707,7 @@ export function VocalSeparator() {
                       className="bg-purple-500 hover:bg-purple-600 text-white"
                     >
                       <Download className="w-4 h-4 mr-1" />
-                      下载
+                      {t('buttons.download-vocals')}
                     </Button>
                   </div>
 
@@ -757,7 +760,7 @@ export function VocalSeparator() {
                         <Music className="w-5 h-5 text-white" />
                       </div>
                       <div>
-                        <span className="font-semibold text-foreground">伴奏轨道</span>
+                        <span className="font-semibold text-foreground">{t('tracks.instrumental')}</span>
                         <p className="text-xs text-muted-foreground">Instrumental Track</p>
                       </div>
                     </div>
@@ -767,7 +770,7 @@ export function VocalSeparator() {
                       className="bg-pink-500 hover:bg-pink-600 text-white"
                     >
                       <Download className="w-4 h-4 mr-1" />
-                      下载
+                      {t('buttons.download-instrumental')}
                     </Button>
                   </div>
 
@@ -815,7 +818,7 @@ export function VocalSeparator() {
                 {/* 重新分离按钮 */}
                 <Button variant="outline" onClick={clearFile} className="w-full bg-transparent">
                   <Upload className="w-4 h-4 mr-2" />
-                  上传新文件
+                  {t('buttons.upload-new')}
                 </Button>
               </div>
             )}

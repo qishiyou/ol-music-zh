@@ -1,13 +1,18 @@
+"use client"
+
 import { AudioEffects } from "@/components/audio-effects"
 import { SidebarLayout } from "@/components/sidebar-layout"
+import { useTranslations } from '@/components/translation-provider'
 
 export default function EffectsPage() {
+  const t = useTranslations()
+  
   return (
     <SidebarLayout>
       <div className="px-6 py-8">
         <section className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">音效处理</h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto">混响、回声、降噪、低音增强等专业音效，提升音频品质</p>
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">{t('features.effects.title')}</h1>
+          <p className="text-muted-foreground max-w-2xl mx-auto">{t('features.effects.description')}</p>
         </section>
         <AudioEffects />
       </div>
